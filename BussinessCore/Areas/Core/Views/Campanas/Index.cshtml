@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Campañas";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border filtro-grilla">
+                <div class="row">
+                    <div class="col-md-2"><h4>Listado de Campañas</h4></div>
+                    <div class="col-md-10">
+                        <a onclick="nuevaCampana()" title="Nueva Campaña" asp- class="pull-right btn btn-info btn-sm">
+                            <i class="fa fa-plus"><span class="hidden-xs"> Nuevo</span></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-hover table-bordered table-responsive" id="CampanaDataTable"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<modal title="Nueva Campaña" callback-modal="true" function="nuevaCampana" load-url="/Core/Campanas/Create/" size="Large"></modal>
+<modal title="Editar Campaña" callback-modal="true" function="editCampana" load-url="/Core/Campanas/Update/" size="Large"></modal>
+<modal title="Generacion de Campaña" function="GeneraCampana" load-url="/Core/Campanas/Genera/" size="Large"></modal>
+<modal title="Envia Mails de Campaña" function="enviaMail" load-url="/Core/Campanas/EnviaMail/" size="Large"></modal>
+<modal title="Envia Mails de Campaña Prueba" function="enviaMailPrueba" load-url="/Core/Campanas/EnviaMailPrueba/" size="Large"></modal>
+<script type="text/javascript">
+$(function () {
+    var table = $('#CampanaDataTable').DataTable({
+                serverSide: true,
+                processing: true,
+                "order": [0, 'desc'],
+                ajax: {
+                    url: '@Url.Action("CampanasDataTable")',
+                    type: "POST",
+                    },
+                rowId: 'Id',
+                "columnDefs": [
+                    {
+                        target: [0],
+                        visible: false,
+                        searchable: false,
+                    }],
+                columns: [
+                    { data: "FechaOrden", title: "FechaOrden"},
+                    { data: "Fecha", title: "Fecha"},
+                    { data: "Observaciones", title: "Observaciones"},
+                    {
+                        "title": "Acciones",
+                        "sortable": false,
+                        "render": function(data, type, row) {
+                            var action = '';
+                            action = action + `<a datatoggle='tooltip' title='Editar Campaña' onclick="editCampana('${row['Id']}')" class="btn btn-primary btn-xs"><i class=" fa fa-file-text-o"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Generar Campaña' onclick="GeneraCampana('${row['Id']}')" class="btn btn-success btn-xs"><i class=" fa fa-calculator"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Descargar Excel' href="/Core/Campanas/DescargaExcel/${row['Id']}" class="btn btn-warning btn-xs"><i class=" fa fa-download"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Enviar Mail Prueba' onclick="enviaMailPrueba('${row['Id']}')" class="btn btn-warning btn-xs"><i class=" fa fa-envelope-o"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Enviar Mail' onclick="enviaMail('${row['Id']}')" class="btn btn-primary btn-xs"><i class=" fa fa-envelope-o"></i></a> `;
+                            
+                            return action;
+                        }
+                    }
+                ]
+
+    });
+})
+</script>

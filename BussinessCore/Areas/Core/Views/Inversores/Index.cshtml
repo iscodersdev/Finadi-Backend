@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Inversores";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border filtro-grilla">
+                <div class="row">
+                    <div class="col-md-3"><h4>Listado de Inversores</h4></div>
+                    <div class="col-md-9">
+                        <a onclick="nuevoInversor()" title="Nuevo Inversor" asp- class="pull-right btn btn-info btn-sm">
+                            <i class="fa fa-plus"><span class="hidden-xs"> Nuevo</span></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-hover table-bordered table-responsive borde_interno" id="InversorDataTable"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<modal title="Edición de Inversor" callback-modal="true" function="editInversor" load-url="/Core/Inversores/_Update/" size="Medium"></modal>
+<modal title="Edición de Tasas de Inversor" callback-modal="true" function="editTasas" load-url="/Core/Inversores/_Tasas/" size="Medium"></modal>
+<modal title="Logo Inversor" callback-modal="true" function="editLogo" load-url="/Core/Inversores/_Image/" size="Medium"></modal>
+@*<modal title="Edición de Tasa de Inversor" callback-modal="true" function="editTasa" load-url="/Core/Inversores/_Tasa/" size="Medium"></modal>
+<modal title="Edición de Tasa Nominal Anual" callback-modal="true" function="editTasaNominalAnual" load-url="/Core/Inversores/_TasaNominalAnual/" size="Medium"></modal>
+<modal title="Edición de Tasa Efectiva Anual" callback-modal="true" function="editTasaEfectivaAnual" load-url="/Core/Inversores/_TasaEfectivaAnual/" size="Medium"></modal>
+<modal title="Edición del CFT Con Impuesto" callback-modal="true" function="editCFTConImpuesto" load-url="/Core/Inversores/_CFTConImpuesto/" size="Medium"></modal>
+<modal title="Edición del CFT Sin Impuesto" callback-modal="true" function="editCFTSinImpuesto" load-url="/Core/Inversores/_CFTSinImpuesto/" size="Medium"></modal>
+<modal title="Edición de Tasa Efectiva Mensual" callback-modal="true" function="editTasaEfectivaMensual" load-url="/Core/Inversores/_TasaEfectivaMensual/" size="Medium"></modal>*@
+<modal title="Nuevo Inversor" callback-modal="true" function="nuevoInversor" load-url="/Core/Inversores/_Create/" size="Medium"></modal>
+<modal title="Borrar Inversor" callback-modal="true" function="deleteInversor" load-url="/Core/Inversores/_Delete/" size="Medium"></modal>
+<script type="text/javascript">
+$(function () {
+    var table = $('#InversorDataTable').DataTable({
+                serverSide: true,
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("InversoresDataTable")',
+                    type: "POST",
+                    },
+                rowId: 'Id',
+                columns: [
+                    { data: "Nombre", title: "Inversor"},
+                    { data: "Domicilio", title: "Domicilio Legal"},
+                    { data: "CUIT", title: "CUIT"},
+                    { data: "Tasa", title: "Tasa de Inversor"},
+                    { data: "TasaNominalAnual", title: "Tasa Nominal Anual"},
+                    { data: "TasaEfectivaAnual", title: "Tasa Efectiva Anual"},
+                    { data: "TasaEfectivaMensual", title: "Tasa Efectiva Mensual"},
+                    { data: "CFTSinImpuesto", title: "CFT Sin Impuesto"},
+                    { data: "CFTConImpuesto", title: "CFT Con Impuesto"},
+                    {
+                        "title": "Acciones",
+                        "sortable": false,
+                        "render": function(data, type, row) {
+                            var action = '';
+                            action = action + `<a datatoggle='tooltip' title='Editar Inversor' onclick="editInversor('${row['Id']}')" class="btn btn-primary btn-xs"><i class=" fa fa-file-text-o"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Editar Tasa' onclick="editTasas('${row['Id']}')" class="btn btn-warning btn-xs"><i class=" fa fa-dollar"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Logo Inversor' onclick="editLogo('${row['Id']}')" class="btn btn-info btn-xs"><i class=" fa fa-file-image-o"></i></a> `;
+                            /*action = action + `<a datatoggle='tooltip' title='Editar Tasa' onclick="editTasa('${row['Id']}')" class="btn btn-warning btn-xs"><i class=" fa fa-dollar"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Editar Tasa Nominal Anual' onclick="editTasaNominalAnual('${row['Id']}')" class="btn btn-warning btn-xs"><i class=" fa fa-dollar"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Editar Tasa Efectiva Anual' onclick="editTasaEfectivaAnual('${row['Id']}')" class="btn btn-warning btn-xs"><i class=" fa fa-dollar"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Editar Tasa Efectiva Mensual' onclick="editTasaEfectivaMensual('${row['Id']}')" class="btn btn-warning btn-xs"><i class=" fa fa-dollar"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Edición del CFT Sin Impuesto' onclick="editCFTSinImpuesto('${row['Id']}')" class="btn btn-warning btn-xs"><i class=" fa fa-dollar"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Edición del CFT Con Impuesto' onclick="editCFTConImpuesto('${row['Id']}')" class="btn btn-warning btn-xs"><i class=" fa fa-dollar"></i></a> `;*/
+                            action = action + `<a datatoggle='tooltip' title='Borrar Inversor' onclick="deleteInversor('${row['Id']}')" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a> `;
+                            return action;
+                        }
+                    }
+                ]
+    });
+})
+</script>

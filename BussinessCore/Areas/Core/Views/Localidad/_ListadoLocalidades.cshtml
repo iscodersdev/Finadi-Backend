@@ -1,0 +1,71 @@
+﻿@model Commons.Models.Page<DAL.Models.Localidad>
+
+<div class="box box-info">
+    <div class="box-header with-border filtro-grilla">
+        <span class="txt-titulo-box">Listado de Localidades</span>
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a onclick="nuevaLocalidad()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nuevo</span></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body">
+        <table id="listadoLocalidad" class="table table-hover table-bordered table-responsive borde_interno">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Provincia
+                    </th>
+                    <th>
+                        Latitud
+                    </th>
+                    <th>
+                        Longitud
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProvinciaNombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Latitud)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Longitud)
+                    </td>
+                    <td>
+                        <a onclick="editLocalidad('@item.Id')" title="Editar Localidad" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" confirm-icon="Danger" confirm-no="Cancelar" confirm-yes="Borrar" confirm="¿Esta seguro de borrar esta Localidad?" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<modal title="Nueva Localidad" callback-modal="true" function="nuevaLocalidad" load-url="/Core/Localidad/_Create/" size="Medium"></modal>
+<modal title="Edición de Localidad" callback-modal="true" function="editLocalidad" load-url="/Core/Localidad/_Update/" size="Medium"></modal>
+
+<script>
+    $(document).ready(function () {
+        $('#listadoLocalidad').DataTable({
+            "columnDefs": [{ "width": "20%", "targets": 0 }, { "width": "20%", class: "text-center", "searchable": false, "orderable": false, "targets": 1 }],
+            "language": {
+                'url': '@Url.Content("~/lib/arg.json")'
+            }
+        });
+    });
+</script>

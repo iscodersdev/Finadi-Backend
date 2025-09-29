@@ -1,0 +1,127 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.MatrizRiesgoCabecera
+@{
+    ViewData["Title"] = "Crear Matriz de Riesgo";
+}
+<form asp-action="_Create">
+
+    @using (Html.BoxBody())
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group" id="selectorCliente">
+                        <label asp-for="Cliente" class="control-label"></label>
+                        <select id="ClienteSelect" name="Cliente.Id"></select>
+                        <span asp-validation-for="Cliente" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Prestamo" class="control-label"></label>
+                    <select asp-items="@ViewBag.Prestamos" asp-for="Prestamo.Id" class="form-control" searchable="true"></select>
+                    <span asp-validation-for="Prestamo" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="Fecha" class="control-label"></label>
+                    <input asp-for="Fecha" class="form-control" />
+                    <span asp-validation-for="Fecha" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="FrecuenciaAnualCreditos" class="control-label"></label>
+                    <input asp-for="FrecuenciaAnualCreditos" class="form-control" />
+                    <span asp-validation-for="FrecuenciaAnualCreditos" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="ResidenteZonaLimistrofe" class="control-label"></label>
+                    <input type="checkbox" asp-for="ResidenteZonaLimistrofe" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="DeclaraBienesInmuebles" class="control-label"></label>
+                    <input type="checkbox" asp-for="DeclaraBienesInmuebles" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="DeclaraBienesMueblesRegistrables" class="control-label"></label>
+                    <input type="checkbox" asp-for="DeclaraBienesMueblesRegistrables" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="CuentaCorrientePesos" class="control-label"></label>
+                    <input type="checkbox" asp-for="CuentaCorrientePesos" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="CuentaCorrienteDolares" class="control-label"></label>
+                    <input type="checkbox" asp-for="CuentaCorrienteDolares" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="OtrasInversiones" class="control-label"></label>
+                    <input type="checkbox" asp-for="OtrasInversiones" class="form-control" />
+                </div>
+            </div>
+        </div>
+    }
+    @using (Html.BoxFooter())
+    {
+        <a class="btn btn-default" asp-action="Index">Cancelar</a>
+        <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+    }
+
+</form>
+<script>
+$(document).ready(function () {
+    $("#selectorCliente .bootstrap-select").hide();
+    $("#ClienteSelect").select2({
+        language: {
+            inputTooShort: function () {
+                return "Debe ingresar como mínimo 3 caracteres.";
+            },
+            errorLoading: function () {
+                return "Hubo un error al traer los Clientes."
+            },
+            noResults: function () {
+                return 'No se encontraron Clientes.';
+            },
+            searching: function () {
+                return 'Buscando...';
+            }
+        },
+        ajax: {
+            url: "/Core/MatrizRiesgo/ClienteCombo",
+            dataType: 'json',
+            data: function (params) {
+                return {
+                    term: params.term
+                };
+            },
+            processResults: function (data) {
+                return {
+                    results: data
+                };
+            },
+        },
+        placeholder: 'Ingrese un Cliente',
+        minimumInputLength: 3
+    });
+    let Cliente = {
+        id: "@ViewBag.ClienteId",
+        text:"@Html.Raw(ViewBag.ClienteDescripcion)"
+    }
+    let DefaultCliente = new Option(Cliente.text, Cliente.id, true, false);
+    $("#ClienteSelect").append(DefaultCliente).trigger("change");
+});
+</script>

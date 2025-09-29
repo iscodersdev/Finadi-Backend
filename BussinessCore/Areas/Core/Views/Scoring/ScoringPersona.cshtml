@@ -1,0 +1,148 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.DTOs.ScoringDTO
+<div class="col-md-6">
+    <div class="box box-widget widget-user-2">
+        @if (Model.Scoring >= 7)
+        {
+            <div class="widget-user-header bg-green">
+                <div class="widget-user-header bg-green">
+                    <div class="widget-user-image">
+                        <img class="img-circle" src="@Model.Foto" alt="User Avatar">
+                    </div>
+                    <h3 class="widget-user-username">@Model.Apellido,@Model.Nombres</h3>
+                    <h5 class="widget-user-desc">@Model.TipoPersona - DNI: @Model.DNI</h5>
+                </div>
+            </div>
+        }
+        @if (Model.Scoring >= 4 && Model.Scoring <= 6)
+        {
+            <div class="widget-user-header bg-warning">
+                <div class="widget-user-header bg-warning">
+                    <div class="widget-user-image">
+                        <img class="img-circle" src="@Model.Foto" alt="User Avatar">
+                    </div>
+                    <h3 class="widget-user-username">@Model.Apellido,@Model.Nombres</h3>
+                    <h5 class="widget-user-desc">@Model.TipoPersona - DNI: @Model.DNI</h5>
+                </div>
+            </div>
+        }
+        @if (Model.Scoring <= 3)
+        {
+            <div class="widget-user-header bg-red">
+                <div class="widget-user-header bg-red">
+                    <div class="widget-user-image">
+                        <img class="img-circle" src="@Model.Foto" alt="User Avatar">
+                    </div>
+                    <h3 class="widget-user-username">@Model.Apellido,@Model.Nombres</h3>
+                    <h5 class="widget-user-desc">@Model.TipoPersona - DNI: @Model.DNI</h5>
+                </div>
+            </div>
+        }
+    <div class="box-footer no-padding">
+        <ul class="nav nav-stacked">
+            @if (Model.Baja == false)
+            {
+                <li><a href="#">Baja <span class="pull-right badge bg-green">@Model.DescripcionBaja</span></a></li>
+            }
+            else
+            {
+                <li><a href="#">Baja <span class="pull-right badge bg-red">@Model.DescripcionBaja</span></a></li>
+            }
+        </ul>
+        <ul class="nav nav-stacked">
+            @if (Model.Quiebra == false)
+            {
+                <li><a href="#">Quiebra <span class="pull-right badge bg-green">@Model.DescripcionQuiebra</span></a></li>
+            }
+            else
+            {
+                <li><a href="#">Quiebra <span class="pull-right badge bg-red">@Model.DescripcionQuiebra</span></a></li>
+            }
+        </ul>
+        <ul class="nav nav-stacked">
+            @if (Model.SituacionEspecial == false)
+            {
+                <li><a href="#">Situacion Especial <span class="pull-right badge bg-green">@Model.DescripcionSituacionEspecial</span></a></li>
+            }
+            else
+            {
+                <li><a href="#">Situacion Especial <span class="pull-right badge bg-red">@Model.DescripcionSituacionEspecial</span></a></li>
+            }
+        </ul>
+        <ul class="nav nav-stacked">
+            @if (Model.Embargos == false)
+            {
+                <li><a href="#">Embargos <span class="pull-right badge bg-green">@Model.DescripcionEmbargos</span></a></li>
+            }
+            else
+            {
+                <li><a href="#">Embargos <span class="pull-right badge label-warning">@Model.DescripcionEmbargos</span></a></li>
+            }
+        </ul>
+        <ul class="nav nav-stacked">
+            @if (Model.OtrosPrestamos == false)
+            {
+                <li><a href="#">Otros Prestamos <span class="pull-right badge bg-green">@Model.DescripcionOtrosPrestamos</span></a></li>
+            }
+            else
+            {
+                <li><a href="#">Otros Prestamos <span class="pull-right badge label-warning">@Model.DescripcionOtrosPrestamos</span></a></li>
+            }
+        </ul>
+        <ul class="nav nav-stacked">
+            @if (Model.Disponible > 0)
+            {
+                <li><a href="#">Disponible <span class="pull-right badge bg-green">@Model.DescripcionDisponible</span></a></li>
+            }
+            else
+            {
+                <li><a href="#">Sin Disponible <span class="pull-right badge label-warning">@Model.DescripcionDisponible</span></a></li>
+            }
+        </ul>
+    </div>
+    </div>
+</div>
+<div class="col-md-6">
+    @if (Model.Scoring >= 7)
+    {
+        <div class="box box-success box-solid">
+            <div class="box-header">
+                <h1 class="box-title text-center" style="font-size:80px;"> </h1>
+            </div>
+            <div class="box-header text-center">
+                <h1 class="box-title text-center" style="font-size:80px;">SCORING</h1>
+            </div>
+            <div class="box-body">
+                <h1 style="color:forestgreen;font-size:140px;" class="text-center"><b>@Model.Scoring</b></h1>
+            </div>
+        </div>
+    }
+    @if (Model.Scoring >= 4 && Model.Scoring <= 6)
+    {
+        <div class="box box-warning box-solid">
+            <div class="box-header">
+                <h1 class="box-title text-center" style="font-size:80px;"> </h1>
+            </div>
+            <div class="box-header text-center">
+                <h1 class="box-title text-center" style="font-size:80px;">SCORING</h1>
+            </div>
+            <div class="box-body">
+                <h1 style="color:yellow;font-size:140px;" class="text-center"><b>@Model.Scoring</b></h1>
+            </div>
+        </div>
+    }
+    @if (Model.Scoring <= 3)
+    {
+        <div class="box box-danger box-solid">
+            <div class="box-header">
+                <h1 class="box-title text-center" style="font-size:80px;"> </h1>
+            </div>
+            <div class="box-header text-center">
+                <h1 class="box-title text-center" style="font-size:80px;">SCORING</h1>
+            </div>
+            <div class="box-body">
+                <h1 style="color:red;font-size:140px;" class="text-center"><b>@Model.Scoring</b></h1>
+            </div>
+        </div>
+    }
+</div>

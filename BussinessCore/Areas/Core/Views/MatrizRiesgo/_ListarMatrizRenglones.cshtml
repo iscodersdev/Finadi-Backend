@@ -1,0 +1,64 @@
+﻿@using DAL.Models
+@model IEnumerable<MatrizRiesgoRenglones>
+
+<div class="box box-info">
+    <div class="box-header with-border filtro-grilla">
+        <span class="txt-titulo-box">Listado de Renglones de Matriz de Riesgo de @ViewBag.MatrizNombre</span>
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a onclick="nuevoRenglon(@ViewBag.MatrizId)" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nuevo</span></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body">
+        <table id="listadoRenglones" class="table table-hover table-bordered table-responsive borde_interno">
+            <thead>
+                <tr>
+                    <th>
+                        Probabilidad
+                    </th>
+                    <th>
+                        Consecuencia
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ToList())
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Probabilidad.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Consecuencia.Nombre)
+                    </td>
+                    <td>
+                        <a onclick="editRenglon(@item.Id)" title="Editar Renglon" class="btn btn-primary btn-xs"><i class="fa fa-file-text-o"></i></a>
+                        <a asp-action="DeleteRenglon" asp-route-id="@item.Id" confirm-icon="Danger" confirm-no="Cancelar" confirm-yes="Borrar" confirm="¿Esta seguro de borrar este renglon de la Matriz de Riesgo?" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<modal title="Edición de Renglones de Matriz de Riesgo" callback-modal="true" function="editRenglon" load-url="/Core/MatrizRiesgo/_UpdateRenglon/" size="Medium"></modal>
+<modal title="Nuevo Renglon de Matriz de Riesgo" callback-modal="true" function="nuevoRenglon" load-url="/Core/MatrizRiesgo/_CreateRenglon/" size="Medium"></modal>
+
+
+<script>
+    $(document).ready(function () {
+        $('#listadoRenglones').DataTable(
+        {
+            "columnDefs": [{ "width": "40%", "targets": 0 }, { "width": "40%", "targets": 1 }, { "width": "20%",class:"text-center","searchable": false,"orderable": false,"targets": 2}],
+            "language": {
+                'url': '@Url.Content("~/lib/arg.json")'
+            }
+        }
+    );
+    });
+</script>

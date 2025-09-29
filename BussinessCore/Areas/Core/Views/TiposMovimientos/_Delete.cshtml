@@ -1,0 +1,36 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.TiposMovimientos
+@{
+    ViewData["Title"] = "Borrar Tipo de Movimiento: " + Model.Nombre;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Delete">
+            @using (Html.BoxDefault(BoxColor.Info))
+            {
+                using (Html.BoxHeader("Información")) { }
+                using (Html.BoxBody())
+                {
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="control-label"></label>
+                        <input asp-for="Nombre" class="form-control" disabled/>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Credito" class="control-label"></label>
+                        <input type="checkbox" asp-for="Credito" class="form-control" disabled/>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Debito" class="control-label"></label>
+                        <input type="checkbox" asp-for="Debito" class="form-control" disabled/>
+                    </div>
+                }
+                using (Html.BoxFooter())
+                {
+                    <a asp-action="Index" class="btn btn-default">Cancelar</a>
+                    <input type="submit" value="Borrar" class="btn btn-primary pull-right" />
+                }
+            }
+        </form>
+    </div>
+</div>

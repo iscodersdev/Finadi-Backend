@@ -1,0 +1,98 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.Campanas
+@{
+    ViewData["Title"] = "Editar Campana:";
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Update" enctype="multipart/form-data">
+            @using (Html.BoxDefault(BoxColor.Info))
+            {
+                using (Html.BoxHeader("Información")) { }
+                using (Html.BoxBody())
+                {
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="MinimoDisponible" class="control-label"></label>
+                        <input asp-for="MinimoDisponible" class="form-control" />
+                        <span asp-validation-for="MinimoDisponible" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MaximoDisponible" class="control-label"></label>
+                        <input asp-for="MaximoDisponible" class="form-control" />
+                        <span asp-validation-for="MaximoDisponible" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Observaciones" class="control-label"></label>
+                        <textarea asp-for="Observaciones" rows="3" class="form-control" style="text-wrap:normal" type="text" placeholder="Describa el Texto de la Campaña"></textarea>
+                        <span asp-validation-for="Observaciones" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TextoMail" class="control-label"></label>
+                        <textarea asp-for="TextoMail" rows="5" class="form-control" style="text-wrap:normal" type="text" placeholder="Describa el Texto del Correo de la Campaña"></textarea>
+                        <span asp-validation-for="TextoMail" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ProvinciaId" class="control-label"></label>
+                        <select asp-items="@ViewBag.Provincias" asp-for="ProvinciaId" class="form-control" id="provincias" searchable="true"><option value="0" selected>Todas</option></select>
+                        <span asp-validation-for="ProvinciaId" class="text-danger"></span>
+                    </div>
+                    <script>
+                        $('#provincias').on('change', function () {
+                            $.ajax({
+                                url: "/Core/Campanas/_TraeUnidades",
+                                data: {
+                                    ProvinciaId: $('#provincias').val()
+                                },
+                                type: "GET",
+                                dataType: "html",
+                                success: function (data) {
+                                    $('#Unidades').replaceWith($('#Unidades').html(data));
+                                }
+                            });
+                        });
+                    </script>
+                    <div class="form-group" id="Unidades">
+                        <label asp-for="UnidadId" class="control-label"></label>
+                        <select asp-items="@ViewBag.Unidades" asp-for="UnidadId" class="form-control" searchable="true"><option value="0" selected>Todas</option></select>
+                        <span asp-validation-for="UnidadId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Link" class="control-label"></label>
+                        <input asp-for="Link" class="form-control" />
+                        <span asp-validation-for="Link" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="control-label">Seleccione Imagen:</label>
+                                <input class="preview" type="file" name="Imagen" data-div="ImagenUpdate" />
+                                <span id="alertaImagen" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6" style=" text-align: center; ">
+                                <div id="ImagenUpdate">
+                                    @*@if (@ViewBag.Imagen != null)
+                                    {
+                                        <img src="data:image/gif;base64,@ViewBag.Imagen" style="height:80px;width:80px" />
+                                    }*@
+                                    @if (@ViewBag.Imagen != null)
+                                    {
+                                        <img src="@ViewBag.Imagen" style="height:80px;width:80px" />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+                using (Html.BoxFooter())
+                {
+                    <a asp-action="Index" class="btn btn-default">Cancelar</a>
+                    <a asp-action="Delete" asp-route-id="Id" onclick="return confirm('Esta seguro de borrar este registro?');" class="btn btn-danger">Borrar</a>
+                    <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+                }
+            }
+        </form>
+    </div>
+</div>

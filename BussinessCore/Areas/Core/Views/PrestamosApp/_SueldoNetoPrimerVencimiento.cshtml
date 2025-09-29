@@ -1,0 +1,66 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.Prestamos
+@{
+    ViewData["Title"] = $"Sueldo Neto y Fecha de Primer Vencimiento {ViewBag.NombreCompleto})";
+}
+<form method="post" asp-action="_SueldoNetoPrimerVencimiento" asp-antiforgery="true">
+    @Html.AntiForgeryToken()
+    @using (Html.BoxDefault(BoxColor.Info))
+    {
+        using (Html.BoxBody())
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="@Model.Id" type="hidden" />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="SueldoNetoMensual" class="control-label"></label>
+                        <input asp-for="SueldoNetoMensual" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="FechaPrimerVencimiento" class="control-label"></label>
+                        <input asp-for="FechaPrimerVencimiento" type="date" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="FechaPresentacionDeInversor" class="control-label"></label>
+                        <input asp-for="FechaPresentacionDeInversor" type="date" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="TotalCapitalInversor" class="control-label"></label>
+                        <input asp-for="TotalCapitalInversor" class="form-control" />
+                    </div>
+                </div>
+
+
+                @if (ViewBag.Gendermeria)
+                {
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="CodigoEstadistico" class="control-label"></label>
+                            <input asp-for="CodigoEstadistico" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label asp-for="FechaEmisionAnexo" class="control-label"></label>
+                            <input asp-for="FechaEmisionAnexo" type="date" class="form-control" />
+                        </div>
+                    </div>                    
+                }
+            </div>
+            }
+            @using (Html.BoxFooter())
+            {
+                <a class="btn btn-danger" data-dismiss="modal">Cancelar</a>
+                <button type="submit" class="btn btn-info pull-right">Guardar</button>
+            }
+        }
+</form>
+
+

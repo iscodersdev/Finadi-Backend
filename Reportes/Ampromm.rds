@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="Ampromm">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=192.168.0.148;Initial Catalog=AMPROMM_PROD</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>30515666-679f-48e4-a2a7-757dd2770321</DataSourceID>
+</RptDataSource>

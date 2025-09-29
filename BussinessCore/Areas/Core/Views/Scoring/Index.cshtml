@@ -1,0 +1,51 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.DTOs.ScoringDTO
+@{
+    ViewData["Title"] = "Scoring Personas";
+}
+<form asp-action="Index">
+
+    @using (Html.BoxDefault(BoxColor.Info))
+    {
+        using (Html.BoxHeader("Scoring Personas"))
+        {
+        }
+        using (Html.BoxBody())
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Seleccione Persona</label>
+                        <select-ajax title="DNI o Apellido, Nombres"
+                                     class="form-control"
+                                     name="PersonaId"
+                                     id="PersonaSeleccionadaId"
+                                     url="@Url.Action("BuscarPersonas", $"Scoring")"
+                                     route-name="Persona"
+                                     color="Default"
+                                     width="100%"
+                                     class-btn="btn-flat"
+                                     text-no-results="<h4 class='text-center'>Sin Personas Coincidentes.</h4>"></select-ajax>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $('#PersonaSeleccionadaId').on('change', function () {
+                    $.ajax({
+                        url: "/Core/Scoring/ScoringPersona",
+                        data: {
+                            DNI: $('#PersonaSeleccionadaId').val()
+                        },
+                        type: "GET",
+                        dataType: "html",
+                        success: function (data) {
+                            $('#ScoringPersona').replaceWith($('#ScoringPersona').html(data));
+                        }
+                    });
+                });
+            </script>
+            <div class="row" id="ScoringPersona">
+            </div>
+        }
+    }
+</form>

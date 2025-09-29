@@ -1,0 +1,217 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SharedDataSet xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/shareddatasetdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSet Name="DataSet1">
+    <Query>
+      <DataSourceReference>FINADI</DataSourceReference>
+      <DataSetParameters>
+        <DataSetParameter Name="@id">
+          <ReadOnly>false</ReadOnly>
+          <Nullable>false</Nullable>
+          <OmitFromQuery>false</OmitFromQuery>
+          <rd:UserDefined>true</rd:UserDefined>
+          <rd:DbType>Int32</rd:DbType>
+        </DataSetParameter>
+      </DataSetParameters>
+      <CommandText>SELECT p.Id, p.FechaActualizacion, p.TipoDocumentoId, p.NroDocumento, p.Nombres, p.Apellido, p.FechaNacimiento, p.Foto, p.Cuil, p.GeneroId, p.CantidadHijos, p.EstadoCivilId, p.PaisId, p.TipoPersonaId, c.Id AS Expr1, c.TipoClienteId, c.UsuarioId, 
+                  c.RazonSocial, c.Domicilio, c.CBU, c.Telefono, c.Celular, c.NumeroCliente, c.ClienteValidado, c.EmpresaId, c.FechaIngresoLaboral, c.NumeroLegajoLaboral, c.CategoriaLaboral, c.DestinoLaboral, c.NumeroAsociado, c.CodeudorId, 
+                  c.PersonaPoliticamenteExpuesta, c.EsMilitar, c.PersonaId, c.FechaIngreso, c.FechaBaja, c.RecibirPublicidad, c.NroDocReferido, AspNetUsers.UserName, Organismos.Descripcion, TiposPersonas.nombre, c.FirmaOlograficaConfirmacion, 
+                  c.FotoDNIAnverso, c.FotoDNIReverso, c.FotoSosteniendoDNI, c.LegajoElectronico, c.FirmaOlografica
+FROM     Personas AS p INNER JOIN
+                  Clientes AS c ON p.Id = c.PersonaId INNER JOIN
+                  AspNetUsers ON c.UsuarioId = AspNetUsers.Id INNER JOIN
+                  TiposPersonas ON p.TipoPersonaId = TiposPersonas.Id INNER JOIN
+                  Organismos ON TiposPersonas.OrganismoId = Organismos.Id
+WHERE  (p.Id = @id)</CommandText>
+    </Query>
+    <Fields>
+      <Field Name="Id">
+        <DataField>Id</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="FechaActualizacion">
+        <DataField>FechaActualizacion</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="TipoDocumentoId">
+        <DataField>TipoDocumentoId</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="NroDocumento">
+        <DataField>NroDocumento</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Nombres">
+        <DataField>Nombres</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Apellido">
+        <DataField>Apellido</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="FechaNacimiento">
+        <DataField>FechaNacimiento</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="Foto">
+        <DataField>Foto</DataField>
+        <rd:TypeName>System.Byte[]</rd:TypeName>
+      </Field>
+      <Field Name="Cuil">
+        <DataField>Cuil</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="GeneroId">
+        <DataField>GeneroId</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="CantidadHijos">
+        <DataField>CantidadHijos</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="EstadoCivilId">
+        <DataField>EstadoCivilId</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="PaisId">
+        <DataField>PaisId</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="TipoPersonaId">
+        <DataField>TipoPersonaId</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="Expr1">
+        <DataField>Expr1</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="TipoClienteId">
+        <DataField>TipoClienteId</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="UsuarioId">
+        <DataField>UsuarioId</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="RazonSocial">
+        <DataField>RazonSocial</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Domicilio">
+        <DataField>Domicilio</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="CBU">
+        <DataField>CBU</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Telefono">
+        <DataField>Telefono</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Celular">
+        <DataField>Celular</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="NumeroCliente">
+        <DataField>NumeroCliente</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="ClienteValidado">
+        <DataField>ClienteValidado</DataField>
+        <rd:TypeName>System.Boolean</rd:TypeName>
+      </Field>
+      <Field Name="EmpresaId">
+        <DataField>EmpresaId</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="FechaIngresoLaboral">
+        <DataField>FechaIngresoLaboral</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="NumeroLegajoLaboral">
+        <DataField>NumeroLegajoLaboral</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="CategoriaLaboral">
+        <DataField>CategoriaLaboral</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="DestinoLaboral">
+        <DataField>DestinoLaboral</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="NumeroAsociado">
+        <DataField>NumeroAsociado</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="CodeudorId">
+        <DataField>CodeudorId</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="PersonaPoliticamenteExpuesta">
+        <DataField>PersonaPoliticamenteExpuesta</DataField>
+        <rd:TypeName>System.Boolean</rd:TypeName>
+      </Field>
+      <Field Name="EsMilitar">
+        <DataField>EsMilitar</DataField>
+        <rd:TypeName>System.Boolean</rd:TypeName>
+      </Field>
+      <Field Name="PersonaId">
+        <DataField>PersonaId</DataField>
+        <rd:TypeName>System.Int32</rd:TypeName>
+      </Field>
+      <Field Name="FechaIngreso">
+        <DataField>FechaIngreso</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="FechaBaja">
+        <DataField>FechaBaja</DataField>
+        <rd:TypeName>System.DateTime</rd:TypeName>
+      </Field>
+      <Field Name="RecibirPublicidad">
+        <DataField>RecibirPublicidad</DataField>
+        <rd:TypeName>System.Boolean</rd:TypeName>
+      </Field>
+      <Field Name="NroDocReferido">
+        <DataField>NroDocReferido</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="UserName">
+        <DataField>UserName</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="Descripcion">
+        <DataField>Descripcion</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="nombre">
+        <DataField>nombre</DataField>
+        <rd:TypeName>System.String</rd:TypeName>
+      </Field>
+      <Field Name="FirmaOlograficaConfirmacion">
+        <DataField>FirmaOlograficaConfirmacion</DataField>
+        <rd:TypeName>System.Byte[]</rd:TypeName>
+      </Field>
+      <Field Name="FotoDNIAnverso">
+        <DataField>FotoDNIAnverso</DataField>
+        <rd:TypeName>System.Byte[]</rd:TypeName>
+      </Field>
+      <Field Name="FotoDNIReverso">
+        <DataField>FotoDNIReverso</DataField>
+        <rd:TypeName>System.Byte[]</rd:TypeName>
+      </Field>
+      <Field Name="FotoSosteniendoDNI">
+        <DataField>FotoSosteniendoDNI</DataField>
+        <rd:TypeName>System.Byte[]</rd:TypeName>
+      </Field>
+      <Field Name="LegajoElectronico">
+        <DataField>LegajoElectronico</DataField>
+        <rd:TypeName>System.Byte[]</rd:TypeName>
+      </Field>
+      <Field Name="FirmaOlografica">
+        <DataField>FirmaOlografica</DataField>
+        <rd:TypeName>System.Byte[]</rd:TypeName>
+      </Field>
+    </Fields>
+  </DataSet>
+</SharedDataSet>

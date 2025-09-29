@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Listado de Organismos";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+@using DAL.Models
+@model IEnumerable<Organismo>
+<div class="box box-info">
+    <div class="box-header with-border filtro-grilla">
+        <span class="txt-titulo-box">Listado de Organismos</span>
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a onclick="nuevoOrganismo()" title="Nuevo Organismo" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nueva</span></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body">
+        <table id="listadoOrganismos" class="table table-hover table-bordered table-responsive borde_interno">
+            <thead>
+                <tr>
+                    <th>
+                        Descripción
+                    </th>
+                    <th>
+                        Orden
+                    </th>
+                    <th>
+                        Activo
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ToList())
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Orden)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Activo)
+                    </td>
+                    <td>
+                        <a onclick="editOrganismo('@item.Id')" title="Editar Organismo" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                        <a asp-action="Delete" title="Borrar Organismo" asp-route-id="@item.Id" confirm-icon="Danger" confirm-no="Cancelar" confirm-yes="Borrar" confirm="¿Esta seguro de borrar esta Organismo?" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<modal title="Nuevo Organismo" callback-modal="true" function="nuevoOrganismo" load-url="/Core/Organismo/_Create/" size="Medium"></modal>
+<modal title="Edición de Organismo" callback-modal="true" function="editOrganismo" load-url="/Core/Organismo/_Update/" size="Medium"></modal>
+<script>
+    $(document).ready(function () {
+        $('#listadoOrganismos').DataTable(
+        {
+            "columnDefs": [{ "width": "60%", "targets": 0 },
+                { "width": "10%", class: "text-center", "targets": 1 },
+                { "width": "10%", class: "text-center", "targets": 2 },
+                { "width": "10%", class: "text-center", "searchable": false, "orderable": false, "targets": 3 }
+            ],
+            "language": {
+                'url': '@Url.Content("~/lib/arg.json")'
+            }
+        }
+    );
+    });
+</script>

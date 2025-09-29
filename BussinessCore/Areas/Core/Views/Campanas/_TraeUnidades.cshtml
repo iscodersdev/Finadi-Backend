@@ -1,0 +1,8 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.Campanas
+
+<div class="form-group" id="Unidades">
+    <label asp-for="UnidadId" class="control-label"></label>
+    <select asp-items="@ViewBag.Unidades" asp-for="UnidadId" class="form-control" searchable="true"><option value="0" selected>Todas</option></select>
+    <span asp-validation-for="UnidadId" class="text-danger"></span>
+</div>

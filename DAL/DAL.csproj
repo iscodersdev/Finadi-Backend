@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20210802135801_mig2.cs" />
+    <Compile Remove="Migrations\20210802135801_mig2.Designer.cs" />
+    <Compile Remove="Migrations\20210803002116_mig3.cs" />
+    <Compile Remove="Migrations\20210803002116_mig3.Designer.cs" />
+    <Compile Remove="Migrations\20211219232752_mig29.cs" />
+    <Compile Remove="Migrations\20211219232752_mig29.Designer.cs" />
+    <Compile Remove="Migrations\20220105233349_mig30.cs" />
+    <Compile Remove="Migrations\20220105233349_mig30.Designer.cs" />
+    <Compile Remove="Migrations\20221214193411_mig57.cs" />
+    <Compile Remove="Migrations\20221214193411_mig57.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Commons" Version="1.3.14" />
+    <PackageReference Include="Microsoft.SqlServer.SqlManagementObjects" Version="161.44091.28" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Constantes\" />
+    <Folder Include="Models\Global\" />
+  </ItemGroup>
+
+</Project>

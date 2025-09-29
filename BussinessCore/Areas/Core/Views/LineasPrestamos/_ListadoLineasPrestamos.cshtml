@@ -1,0 +1,139 @@
+﻿@using DAL.Models
+@model Commons.Models.Page<LineasPrestamos>
+
+<div class="box box-info">
+    <div class="box-header with-border filtro-grilla">
+        <span class="txt-titulo-box">Listado de Líneas de Préstamos</span>
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a onclick="nuevaLineaPrestamo()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nuevo</span></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body">
+        <table id="listadoLineasPrestamos" class="table table-hover table-bordered table-responsive borde_interno">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Capital Mínimo
+                    </th>
+                    <th>
+                        Capital Máximo
+                    </th>
+                    <th>
+                        Cuota Mínimo
+                    </th>
+                    <th>
+                        Cuota Máximo
+                    </th>
+                    <th>
+                        Cantidad de Cuotas Mínimo
+                    </th>
+                    <th>
+                        Cantidad de Cuotas Máximo
+                    </th>
+                    <th>
+                        SistemaFinanciacion
+                    </th>
+                    <th>
+                        Intervalo
+                    </th>
+                    <th>
+                        Moneda
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CapitalMinimo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CapitalMaximo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CuotaMinima)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CuotaMaxima)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CantidadCuotasMinima)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CantidadCuotasMaxima)
+                    </td>
+                    <td>
+                        @if (item.SistemaFinanciacion != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.SistemaFinanciacion.Nombre)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Intervalo)
+                    </td>
+                    <td>
+                        @if (item.Moneda != null)
+                        {
+                            @Html.DisplayFor(modelItem => item.Moneda.Nombre)
+                        }
+                    </td>
+
+                    <td>
+                        <a onclick="editLineaPrestamo(@item.Id)" title="Editar Linea de Prestamo" class="btn btn-primary btn-xs"><i class="fa fa-file-text-o"></i></a>
+                        <a data-ajax="true"
+                           data-ajax-update="#opciones"
+                           data-ajax-mode="replace"
+                           asp-action="_ListadoLineasPrestamosPlanes"
+                           title="Planes de Prestamos"
+                           asp-route-id="@item.Id"
+                           class="btn btn-warning btn-xs">
+                            <i class="fa fa-server"></i>
+                        </a>
+
+                        <a data-ajax="true"
+                           data-ajax-update="#opciones"
+                           data-ajax-mode="replace"
+                           asp-action="_ListadoLineasPrestamosTipoPersona"
+                           title="Tipo de Personas"
+                           asp-route-id="@item.Id"
+                           class="btn btn-info btn-xs">
+                            <i class="fa fa-server"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" confirm-icon="Danger" confirm-no="Cancelar" confirm-yes="Borrar" confirm="¿Esta seguro de borrar esta Linea de Prestamo?" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<modal title="Edición de Linea de Prestamo" callback-modal="true" function="editLineaPrestamo" load-url="/Core/LineasPrestamos/_Update/" size="Medium"></modal>
+<modal title="Nueva Linea de Prestamo" callback-modal="true" function="nuevaLineaPrestamo" load-url="/Core/LineasPrestamos/_Create/" size="Medium"></modal>
+
+<script>
+    $(document).ready(function () {
+        $('#listadoLineasPrestamos').DataTable({
+            "columnDefs": [{
+                "searchable": false,
+                "orderable": false,
+                "targets": 5
+            }],
+            "language": {
+                'url': '@Url.Content("~/lib/arg.json")'
+            }
+        });
+    });
+</script>

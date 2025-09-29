@@ -1,0 +1,43 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.TiposPersonas
+@{
+    ViewData["Title"] = "Crear Tipo de Persona";
+}
+<form asp-action="_Create">
+
+    @using (Html.BoxBody())
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="nombre" class="control-label"></label>
+            <input asp-for="nombre" class="form-control" />
+            <span asp-validation-for="nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="LimiteCuotas" class="control-label"></label>
+            <input asp-for="LimiteCuotas" class="form-control" />
+            <span asp-validation-for="LimiteCuotas" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="TopePrestamo" class="control-label"></label>
+            <input asp-for="TopePrestamo" class="form-control" />
+            <span asp-validation-for="TopePrestamo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MontoAmpliacion" class="control-label"></label>
+            <input asp-for="MontoAmpliacion" class="form-control" />
+            <span asp-validation-for="MontoAmpliacion" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Organismo" class="control-label"></label>
+            <select asp-items="@ViewBag.Organismo" asp-for="Organismo.Id" class="form-control" searchable="true"></select>
+            <span asp-validation-for="Organismo" class="text-danger"></span>
+        </div>
+    }
+    @using (Html.BoxFooter())
+    {
+        <a class="btn btn-default" asp-action="Index">Cancelar</a>
+        <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+    }
+
+</form>

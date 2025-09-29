@@ -1,0 +1,57 @@
+﻿@using Commons.HtmlHelpers
+@{
+    ViewData["Title"] = "Cargar Adjunto de Transferencia Empresa";
+}
+
+<form asp-action="_Adjunto" enctype="multipart/form-data">
+
+    @using (Html.BoxBody())
+    {
+        @if (ViewBag.CargarAdjunto)
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" value="@ViewBag.PrestamoId" name="Id" /><div class="form-group">
+                <div class="row" style="text-align: -webkit-center;">
+                    <div class="col-md-12">
+                        <label class="control-label">Seleccione Adjunto:</label>
+                        <input class="preview" type="file" name="AdjuntoPrestamo" data-div="AdjuntoPrestamoUpdate" />
+                        <span id="alertaAdjuntoPrestamo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        }<div class="row">
+                <div style=" text-align: center; ">
+                @if (ViewBag.AdjuntoTransferencia != null)
+                {
+                    <div id="AdjuntoPrestamoUpdate">
+                        @if (ViewBag.ExtensionAdjuntoTransferencia == "pdf")
+                        {
+                            @if (@ViewBag.AdjuntoTransferencia != null)
+                            {
+                                <embed src="data:application/pdf;base64,@ViewBag.AdjuntoTransferencia" width="100%" height="500px" type="application/pdf">
+                            }
+                        }
+                        else
+                        {
+                            <img src="data:image/gif;base64,@ViewBag.AdjuntoTransferencia" />
+                        }
+                    </div>
+                }                    
+
+                </div>
+            </div>
+        }
+        @using (Html.BoxFooter())
+        {
+            <a class="btn btn-default" asp-action="Index">Cancelar</a>
+            @if (ViewBag.CargarAdjunto)
+            {
+                <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+            }
+        }
+
+    </form>
+
+<script>   
+</script>

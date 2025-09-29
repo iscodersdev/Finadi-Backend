@@ -1,0 +1,27 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.Clientes
+@{
+    ViewData["Title"] = "Enviar Notificación por WhatsApp";
+}
+<form method="post" asp-action="_EnviarNotificacionWapp" asp-controller="PrestamosAprobados" asp-area="Core" asp-antiforgery="true">
+    @Html.AntiForgeryToken()
+    @using (Html.BoxDefault(BoxColor.Info))
+    {
+        using (Html.BoxBody())
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Persona.NroDocumento" class="control-label" hidden/>
+            <input name="PrestamoId" value="@ViewBag.PrestamoId" class="control-label" hidden/>
+            <div class="text-center">
+                <h4> Enviar Notificación de Prestamo por WhatsApp a <b>@Model.Persona.Apellido @Model.Persona.Nombres</b> </h4>
+            </div>
+        }
+        @using (Html.BoxFooter())
+        {
+
+            <a class="btn btn-danger" data-dismiss="modal">Cancelar</a>
+            <button type="submit" class="btn btn-info pull-right">Enviar</button>
+
+        }
+    }
+</form>

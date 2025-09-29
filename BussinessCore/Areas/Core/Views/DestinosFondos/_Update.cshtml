@@ -1,0 +1,26 @@
+﻿@model DAL.DTOs.DestinoFondosDTO
+@{
+    ViewData["Title"] = "Editar Destino de Fondos: "+Model.Nombre;
+}
+<form method="post" asp-action="_Update" asp-controller="DestinosFondos" asp-area="Core" asp-antiforgery="true">
+    @Html.AntiForgeryToken()
+    <div class="box-body">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input asp-for="DestinoFondosId" type="hidden" />
+        <div class="form-group">
+            <label asp-for="Nombre" class="control-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="RubrosSeleccionados" class="control-label"></label>
+            <select asp-items="Model.Rubros" asp-for="RubrosSeleccionados" class="form-control" title="Seleccione los Rubros" searchable="true" multiple></select>
+            <span asp-validation-for="RubrosSeleccionados" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="box-footer">
+        <a class="btn btn-danger" data-dismiss="modal">Cancelar</a>
+        <button type="submit" class="btn btn-info pull-right">Guardar</button>
+    </div>
+</form>
+

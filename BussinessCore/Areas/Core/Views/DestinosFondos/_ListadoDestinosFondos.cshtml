@@ -1,0 +1,54 @@
+﻿@model Commons.Models.Page<DAL.Models.DestinosFondos>
+
+<div class="box box-info">
+    <div class="box-header with-border filtro-grilla">
+        <span class="txt-titulo-box">Listado de Destinos de Fondos</span>
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a onclick="nuevoDestinoFondos()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nuevo</span></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body">
+        <table id="listadoDestinosFondos" class="table table-hover table-bordered table-responsive borde_interno">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            <a onclick="editDestinoFondos('@item.Id')" title="Editar Destino de Fondos" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                            <a onclick="borrarDestinoFondos('@item.Id')" title="Borrar Destino de Fondos" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<modal title="Nuevo Destino de Fondos" callback-modal="true" function="nuevoDestinoFondos" load-url="/Core/DestinosFondos/_Create/" size="Medium"></modal>
+<modal title="Edición de Destino de Fondos" callback-modal="true" function="editDestinoFondos" load-url="/Core/DestinosFondos/_Update/" size="Medium"></modal>
+<modal title="Borrar Destino de Fondos" function="borrarDestinoFondos" load-url="/Core/DestinosFondos/_Delete/" size="Medium"></modal>
+
+<script>
+    $(document).ready(function () {
+        $('#listadoDestinosFondos').DataTable({
+            "columnDefs": [{ "width": "90%", "targets": 0 }, { "width": "10%", class: "text-center", "searchable": false, "orderable": false, "targets": 1 }],
+            "language": {
+                'url': '@Url.Content("~/lib/arg.json")'
+            }
+        });
+    });
+</script>

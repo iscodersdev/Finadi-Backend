@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Listado Lineas de Prestamos";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+<load id="tablaLineasPrestamos" load-url="/Core/LineasPrestamos/_ListadoLineasPrestamos">
+</load>
+
+<div id="opciones">
+    @if (@ViewBag.LineaPrestamoId != null)
+    {
+        <load id="tablaLineasPrestamosPlanes" load-url="/Core/LineasPrestamos/_ListadoLineasPrestamosPlanes/@ViewBag.LineaPrestamoId"></load>
+    }
+
+    @if (@ViewBag.TipoPersonaLineaPrestamo != null)
+    {
+        <load id="tablaLineasPrestamosPlanes" load-url="/Core/LineasPrestamos/_ListadoLineasPrestamosTipoPersona/@ViewBag.TipoPersonaLineaPrestamo"></load>
+    }
+</div>

@@ -1,0 +1,62 @@
+﻿@using DAL.Models
+@model List<LineasPrestamosPlanes>
+<div class="box box-info">
+    <div class="box-header with-border filtro-grilla">
+        <span class="txt-titulo-box">Listado de Líneas de Préstamos</span>
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+                <a onclick="ImportarRenglones(@ViewBag.LineaPrestamoId)" class="btn btn-success btn-sm">
+                    <i class="fa fa-file-excel-o"></i>&nbsp;<i class="fa fa-plus"><span class="hidden-xs"> Importar Excel</span></i>
+                </a>
+            </div>
+            &nbsp;
+            <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+                <a onclick="nuevaLineaPrestamoPlanes(@ViewBag.LineaPrestamoId)" class="btn btn-info btn-sm">
+                    <i class="fa fa-plus"><span class="hidden-xs"> Nuevo</span></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="box-body">
+        <table class="table table-hover table-bordered table-responsive" id="LineasPrestamosPlanesDataTable"></table>
+    </div>
+</div>
+
+
+        <modal title="Edición el Plan de Linea de Prestamo" callback-modal="true" function="editLineaPrestamoPlanes" load-url="/Core/LineasPrestamos/_UpdatePlanes/" size="Medium"></modal>
+        <modal title="Nueva Linea de Prestamo" callback-modal="true" function="nuevaLineaPrestamoPlanes" load-url="/Core/LineasPrestamos/_CreatePlanes/" size="Medium"></modal>
+        <modal title="Importar Excel" callback-modal="true" function="ImportarRenglones" load-url="/Core/LineasPrestamos/_EditaValores/" size="Medium"></modal>
+        <script>
+
+        $(function () {
+            var table = $('#LineasPrestamosPlanesDataTable').DataTable({
+                serverSide: true,
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("LineasPrestamosPlanesDataTable")',
+                    type: "POST",
+                    data: {
+                        id: '@Html.Raw(@ViewBag.LineaPrestamoId)',
+                    }
+                },
+                rowId: 'Id',
+                columns: [
+                    { data: "MontoPrestado", title: "Monto Prestado"},
+                    { data: "CantidadCuotas", title: "Cantidad Cuotas" },
+                    { data: "MontoCuota", title: "Monto Cuotas" },
+                    //{ data: "MargenDisponible", title: "Margen Disponible" },
+                    {
+                        "title": "Acciones",
+                        "sortable": false,
+                        "render": function(data, type, row) {
+                            var action = '';
+                            action = action + `<a datatoggle='tooltip' title='Editar' onclick="editLineaPrestamoPlanes('${row['Id']}')" class="btn btn-primary btn-xs"><i class=" fa fa-file-text-o"></i></a> `;
+                            
+                            return action;
+                        }
+                    }
+                ]
+
+               });
+})
+        </script>

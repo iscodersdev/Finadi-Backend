@@ -1,0 +1,44 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.Core.Inversor
+@{
+    ViewData["Title"] = "Editar Inversor: " + Model.Nombre;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="_Update">
+            @using (Html.BoxDefault(BoxColor.Info))
+            {
+                using (Html.BoxHeader("Datos del Inversor")) { }
+                using (Html.BoxBody())
+                {
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="Nombre" class="control-label"></label>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Domicilio" class="control-label"></label>
+                        <input asp-for="Domicilio" class="form-control" />
+                        <span asp-validation-for="Domicilio" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CUIT" class="control-label"></label>
+                        <input asp-for="CUIT" class="form-control" />
+                        <span asp-validation-for="CUIT" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <br/><label asp-for="FirmaReporte" class="control-label"></label>
+                        <input type="checkbox" asp-for="FirmaReporte" class="form-control" />
+                    </div>
+                }
+                using (Html.BoxFooter())
+                {
+                    <a asp-action="Index" class="btn btn-default">Cancelar</a>
+                    <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+                }
+            }
+        </form>
+    </div>
+</div>

@@ -1,0 +1,88 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.Organismo
+@{
+    ViewData["Title"] = "Nueva Organismo";
+}
+<form method="post" asp-action="_Create" asp-controller="Organismo" asp-area="Core" asp-antiforgery="true">
+    @Html.AntiForgeryToken()
+    @using (Html.BoxDefault(BoxColor.Info))
+    {
+        using (Html.BoxBody())
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Orden" class="control-label"></label>
+                <input asp-for="Orden" class="form-control" />
+                <span asp-validation-for="Orden" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CUIT" class="control-label"></label>
+                <input asp-for="CUIT" type="number" class="form-control" />
+                <span asp-validation-for="CUIT" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provincia" class="control-label"></label>
+                <select asp-items="@ViewBag.Provincias" asp-for="Provincia.Id" class="form-control" searchable="true"></select>
+                <span asp-validation-for="Provincia.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Localidad" class="control-label"></label>
+                <select asp-items="@ViewBag.Localidades" asp-for="Localidad.Id" class="form-control" searchable="true"></select>
+                <span asp-validation-for="Localidad.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Domicilio" class="control-label"></label>
+                <input asp-for="Domicilio" class="form-control" />
+                <span asp-validation-for="Domicilio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoPostal" class="control-label"></label>
+                <input asp-for="CodigoPostal" class="form-control" />
+                <span asp-validation-for="CodigoPostal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CodigoDescuento" class="control-label"></label>
+                <input asp-for="CodigoDescuento" class="form-control" />
+                <span asp-validation-for="CodigoDescuento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Activo" class="control-label"></label>
+                <input type="checkbox" asp-for="Activo" class="form-control" />
+                <span asp-validation-for="Activo" class="text-danger"></span>
+            </div>
+
+
+        }
+        @using (Html.BoxFooter())
+        {
+
+            <a class="btn btn-danger" data-dismiss="modal">Cancelar</a>
+            <button type="submit" class="btn btn-info pull-right">Agregar</button>
+
+        }
+    }
+</form>
+<script>
+    $(document).ready(function () {
+        $('#Provincia_Id').on('change', function () {
+            $.ajax({
+                url: "/Core/Clientes/SelectLocalidades",
+                data: {
+                    id: $('#Provincia_Id').val()
+                },
+                type: "Post",
+                success: function (data) {
+                    $('#Localidad_Id').empty();
+                    $('#Localidad_Id').html(data).selectpicker('refresh');
+                    $('#Localidad_Id').selectpicker('val', ['0']).selectpicker('refresh');
+                }
+            });
+        });
+    });
+</Script>

@@ -1,0 +1,226 @@
+﻿@model IList<DAL.Models.BandejaDeAprobacionPrestamoDTO>
+
+@{
+    ViewData["Title"] = "Prestamos - Bandeja de Aprobación ";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+
+<style>
+    .input-group a {
+        margin-left: 5px;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+
+            <div class="box-header with-border filtro-grilla">
+                <box-header title="Listado de Solicitudes de Prestamos">
+                    <div class=row>
+                        <div class="col-md-1 input-group input-group-sm pull-right">
+                            <a onclick="NuevoPrestamoOtroOrg()" class="btn btn-primary btn-sm">
+                                <i class="fa fa-plus"></i> <span class="hidden-xs"> Nuevo</span>
+                            </a>
+                        </div>
+                    </div>
+                </box-header>
+
+                <div class="row">
+                    <div class="col-md-2" style="vertical-align: central">
+                        <b>Desde:</b>
+                        <input id="Desde" class="form-control" type="date" value="@ViewBag.Desde">
+                    </div>
+
+                    <div class="col-md-2" style="vertical-align: central">
+                        <b>Hasta:</b>
+                        <input id="Hasta" class="form-control" type="date" value="@ViewBag.Hasta">
+                    </div>
+
+                    <div class="col-md-2" style="vertical-align: central">
+                        <b>Estados:</b>
+                        <select asp-items="@ViewBag.Estados" id="SearchEstados" class="form-control" searchable="true"></select>
+                    </div>
+
+                    <div class="col-md-1  col-sm-4" style="vertical-align: central">
+                        <b>&nbsp;</b>
+                        <a onclick="descargaExcel()" class="btn btn-success btn-sm form-control" style="width: 180px;">
+                            <i class="fa fa-download"></i><span class="hidden-xs" style=" font-size: larger;"> Descarga Excel</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="box-body">
+                <table class="table table-hover table-condensed tableresponsive table-striped table-bordered" id="PrestamosEntidadDataTable"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        var PrestamosEntidadTable = $('#PrestamosEntidadDataTable').DataTable({
+            order: [[0, 'desc']],
+            columnDefs: [{ targets: 0, render: function (data) { return moment(data).format('DD/MM/YYYY'); } }],
+            serverSide: true,
+            processing: true,
+            pageLength: 25,
+            ajax: {
+                url: '@Url.Action("PrestamosEntidadDataTable")',
+                type: "POST",
+                data: function (d) {
+                    d.estadoId = $('#SearchEstados').val(),
+                    d.Desde = $("#Desde").val(),
+                    d.Hasta = $("#Hasta").val();
+                }
+            },
+            rowId: 'Id',
+            columns: [
+                { data: "Fecha", title: "Fecha" },
+                { data: "Apellido", title: "Apellido" },
+                { data: "Nombre", title: "Nombres" },
+                { data: "DNI", title: "DNI" },
+                { data: "MontoPrestado", title: "Solicitado", sClass: "text-center" },
+                { data: "MontoCuota", title: "Cuota", sClass: "text-center" },
+                { data: "Saldo", title: "Saldo", render: $.fn.dataTable.render.number(',', '.', 2, '$'), sClass: "text-center" },
+                { data: "Estado", title: "Estado Prestamo", sClass: "text-center" },
+                {
+                    "title": "Acciones",
+                    "sClass": "text-center",
+                    "sortable": false,
+                    "render": function (data, type, row) {
+                        var action = '';
+                        action = action + `<a datatoggle='tooltip' title='Ver Legajo' onclick="verLegajo(${row['Id']})" class="btn btn-info btn-xs"><i class="fa fa-print"></i></a>&nbsp;`;
+                        action = action + `<a datatoggle='tooltip' title='Ver Datos Causante' onclick="verDatosPersona(${row['ClienteId']})" class="btn btn-primary btn-xs"><i class="fa fa-user"></i></a>&nbsp;`;
+                        // action = action + `<a datatoggle='tooltip' title='Ver Legajo Inaes' onclick="verLegajoInae(${row['Id']})" class="btn btn-warning btn-xs"><i class="fa fa-print"></i></a>&nbsp;`;
+                       // action = action + `<a datatoggle='tooltip' title='Ver Legajo Inversor' onclick="verLegajoMasVenta(${row['Id']})" class="btn btn-info btn-xs"><i class="fa fa-print"></i></a>&nbsp;`;
+                        action = action + `<a datatoggle='tooltip' title='Sueldo Neto y Primer Vencimiento' onclick="modificaPrestamo(${row['Id']})" class="btn btn-warning btn-xs"><i class="fa fa-user-plus"></i></a>&nbsp;`;
+
+                        if (row['EstadoPrestamoId'] > 0) {
+                            // action = action + `<a datatoggle='tooltip' title='Asignar Inversor' onclick="AsignarInversor(${row['Id']})" class="btn btn-info btn-xs"><i class="fa fa-file-text-o"></i></a>&nbsp;`;
+                        }
+
+                        if (row['EstadoPrestamoId'] == 1) { //Solicitado
+                            action = action + `<a datatoggle='tooltip' title='Editar Solicitud de Prestamo' onclick="editarPrestamo(${row['Id']})" class="btn btn-success btn-xs"><i class="fa fa-money"></i></a>&nbsp;`;
+                            //action = action + `<a datatoggle='tooltip' title='Sueldo Neto y Primer Vencimiento' onclick="modificaPrestamo(${row['Id']})" class="btn btn-warning btn-xs"><i class="fa fa-user-plus"></i></a>&nbsp;`;
+                            action = action + `<a datatoggle='tooltip' title='Aprobar Solicitud' onclick="apruebaPrestamo(${row['Id']})" class="btn btn-success btn-xs"><i class="fa fa-thumbs-o-up"></i></a>&nbsp;`;
+                            action = action + `<a datatoggle='tooltip' title='Desaprueba Solicitud' onclick="anulaPrestamo(${row['Id']})" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-o-down"></i></a>&nbsp;`;
+                            action = action + `<a datatoggle='tooltip' title='Enviar Notificación Préstamo' onclick="EnviarNoti([${row['DNI']}, ${row['Id']}])" class="btn btn-primary btn-xs"><i class="fa fa-envelope"></i></a>&nbsp;`;
+                            action = action + `<a datatoggle='tooltip' title='Carga Adjuntos' onclick="cargaAdjuntosCertDesc(${row['Id']})" class="btn btn-warning btn-xs"><i class="fa fa-sellsy"></i></a>&nbsp;`;
+                        }
+                        if (row['EstadoPrestamoId'] == 2) { //Esperando Transferencia
+                            action = action + `<a datatoggle='tooltip' title='Carga Comprobante de Transferecia' onclick="cargaAdjuntos(${row['Id']})" class="btn bg-orange btn-xs"><i class="fa fa-cloud-upload"></i></a>&nbsp;`;
+                            action = action + `<a datatoggle='tooltip' title='Carga Adjuntos' onclick="cargaAdjuntosCertDesc(${row['Id']})" class="btn btn-warning btn-xs"><i class="fa fa-sellsy"></i></a>&nbsp;`;
+                            action = action + `<a datatoggle='tooltip' title='Desaprueba Solicitud' onclick="anulaPrestamo(${row['Id']})" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-o-down"></i></a>&nbsp;`;
+                        }
+                        if (row['EstadoPrestamoId'] == 6) { //Confirmar Persona
+                            action = action + `<a datatoggle='tooltip' title='Enviar Notificación Préstamo' onclick="EnviarNoti([${row['DNI']}, ${row['Id']}])" class="btn btn-primary btn-xs"><i class="fa fa-envelope"></i></a>&nbsp;`;
+                            action = action + `<a datatoggle='tooltip' title='Desaprueba Solicitud' onclick="anulaPrestamo(${row['Id']})" class="btn btn-danger btn-xs"><i class="fa fa-thumbs-o-down"></i></a>&nbsp;`;
+                        }
+                        if (row['EstadoPrestamoId'] == 7) { //Transferido
+                            action = action + `<a datatoggle='tooltip' title='Cerrar Prestamo' onclick="cerrarPrestamo(${row['Id']})" class="btn btn-success btn-xs"><i class="fa fa-check-circle"></i></a>&nbsp;`;
+                            action = action + `<a datatoggle='tooltip' title='Ver Comprobante De Transferencia' onclick="cargaAdjuntos(${row['Id']})" class="btn bg-orange btn-xs"><i class="fa fa-file-image-o"></i></a>&nbsp;`;
+                            action = action + `<a datatoggle='tooltip' title='Ver Adjuntos' onclick="cargaAdjuntosCertDesc(${row['Id']})" class="btn btn-warning btn-xs"><i class="fa fa-file-image-o"></i></a>`;
+                        }
+                        return action;
+                    }
+                }]
+        });
+        $("#estadoId").change(function () {
+            PrestamosEntidadTable.draw();
+        });
+
+        $("#Desde").change(function () {
+            PrestamosEntidadTable.draw();
+        });
+
+        $("#Hasta").change(function () {
+            PrestamosEntidadTable.draw();
+        });
+
+        $("#SearchEstados").change(function () {
+            var selectEstado = $("#SearchEstados").val();
+            if (selectEstado == "Null") {
+                PrestamosEntidadTable.column(7).search("").draw();
+            } else {
+                PrestamosEntidadTable.column(7).search(selectEstado).draw();
+            }
+        });
+
+    })
+
+
+    function cerrarPrestamo(id) {
+        Swal.fire({
+            title: '¿Desea Cerrar el Prestamo?',
+            text: "Ya no se prodrá modificar.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Aceptar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax({
+                    url: "/Core/BandejaDeAprobacion/CerrarPrestamo",
+                    data: {
+                        id: id,
+                    },
+                    type: "GET",
+                    dataType: "html",
+                    success: function (data) {
+                        console.log(data);
+                        if (data == 'true') {
+                            Swal.fire({
+                                title: 'Eliminado',
+                                text: "El Prestamo fue Cerrardo.",
+                                icon: 'success',
+                                showConfirmButton: false,
+                            })
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Error al cerrar el Prestamo.',
+                                icon: 'error',
+                                showConfirmButton: false,
+                            });
+                        }
+                        ;
+                        setTimeout(function () {
+                            location.reload();
+                        }, 700);
+                    }
+                });
+            }
+        })
+    };
+
+    function descargaExcel()
+    {
+      var url = "/Core/BandejaDeAprobacion/_DescargaExcel/?Desde=" + document.getElementById("Desde").value + "&Hasta=" + document.getElementById("Hasta").value;
+      window.location.replace(url);
+    };
+
+</script>
+<modal title="Ver Datos Del Causante" function="verDatosPersona" load-url="/Core/BandejaDeAprobacion/_VerDatosPersona/" size="Medium"></modal>
+
+<modal title="Nuevo Prestamo" function="NuevoPrestamoOtroOrg" load-url="/Core/BandejaDeAprobacion/_NuevoPrestamoOtroOrg/" size="Medium"></modal>
+
+<modal callback-modal="true" title="Enviar Notificación" function="EnviarNoti" load-url="/Core/BandejaDeAprobacion/_EnviarNotificacionPrestamoDTO" size="Medium"></modal>
+<modal title="Ver Legajo Online" function="verLegajo" load-url="/Core/Prestamos/_LegajoOnline/" size="Large"></modal>
+<modal title="Aprueba Prestamo" function="apruebaPrestamo" load-url="/Core/BandejaDeAprobacion/_ApruebaPrestamoModal" size="Medium"></modal>
+<modal title="Anular Prestamo" function="anulaPrestamo" load-url="/Core/BandejaDeAprobacion/_AnulaPrestamoModal" size="Medium"></modal>
+<modal title="Ver Legajo Entidad" function="verLegajoEntidad" load-url="/PrestamosEntidad/_LegajoEntidad/" size="Large"></modal>
+<modal title="Ver Legajo Inversor" function="verLegajoMasVenta" load-url="/Core/BandejaDeAprobacion/_LegajoMasVenta/" size="Large"></modal>
+<modal title="Ver Legajo Inaes" function="verLegajoInae" load-url="/Core/BandejaDeAprobacion/_LegajoOnlineInae/" size="Large"></modal>
+<!--<modal title="Asignar Inversor" function="AsignarInversor" load-url="/Core/BandejaDeAprobacion/_AsignarInversor/" size="Large"></modal>-->
+
+<modal callback-modal="true" title="Editar Solicitud de Prestamo" function="editarPrestamo" load-url="/Core/BandejaDeAprobacion/_EditarPrestamo/" size="Medium"></modal>
+<modal callback-modal="true" title="Carga Adjuntos" function="cargaAdjuntosCertDesc" load-url="/Core/BandejaDeAprobacion/_AdjuntoFotoCertificadoDescuento" size="Large"></modal>
+<modal callback-modal="true" title="Carga Comprobante de Transferecia" function="cargaAdjuntos" load-url="/Core/BandejaDeAprobacion/_Adjunto" size="Large"></modal>
+<modal callback-modal="true" title="Sueldo Neto y Primer Vencimiento" function="modificaPrestamo" load-url="/Core/BandejaDeAprobacion/_SueldoNetoPrimerVencimiento" size="Medium"></modal>
+
+

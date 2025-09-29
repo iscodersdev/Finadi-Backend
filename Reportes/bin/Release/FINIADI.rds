@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="FINIADI">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=186.189.235.119;Initial Catalog=FINADI_prod</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>71786721-226d-4e65-8769-4522cfbcf175</DataSourceID>
+</RptDataSource>

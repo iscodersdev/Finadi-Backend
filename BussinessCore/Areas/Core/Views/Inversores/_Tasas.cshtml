@@ -1,0 +1,56 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.Core.Inversor
+@{
+    ViewData["Title"] = "Editar Tasas de Inversor: " + Model.Nombre;
+    var eeeee = Model;
+}
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="_Tasas">
+            @using (Html.BoxDefault(BoxColor.Info))
+            {
+                using (Html.BoxHeader("Datos del Inversor")) { }
+                using (Html.BoxBody())
+                {
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />                    
+                    <div class="form-group">
+                        <label asp-for="TasaActual.Tasa" class="control-label"></label>
+                        <input asp-for="TasaActual.Tasa" type="text" class="form-control" />
+                        <span asp-validation-for="TasaActual.Tasa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TEA.Tasa" class="control-label"></label>
+                        <input asp-for="TEA.Tasa" type="text" class="form-control" />
+                        <span asp-validation-for="TEA.Tasa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TEM.Tasa" class="control-label"></label>
+                        <input asp-for="TEM.Tasa" type="text" class="form-control" />
+                        <span asp-validation-for="TEM.Tasa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TNA.Tasa" class="control-label"></label>
+                        <input asp-for="TNA.Tasa" type="text" class="form-control" />
+                        <span asp-validation-for="TNA.Tasa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CFTSinImpuesto.Tasa" class="control-label"></label>
+                        <input asp-for="CFTSinImpuesto.Tasa" type="text" class="form-control" />
+                        <span asp-validation-for="CFTSinImpuesto.Tasa" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CFTConImpuesto.Tasa" class="control-label"></label>
+                        <input asp-for="CFTConImpuesto.Tasa" type="text" class="form-control" />
+                        <span asp-validation-for="CFTConImpuesto.Tasa" class="text-danger"></span>
+                    </div>                   
+                }
+                using (Html.BoxFooter())
+                {
+                    <a asp-action="Index" class="btn btn-default">Cancelar</a>
+                    <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+                }
+            }
+        </form>
+    </div>
+</div>

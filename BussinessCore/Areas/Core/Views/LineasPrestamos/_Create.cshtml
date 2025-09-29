@@ -1,0 +1,67 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.LineasPrestamos
+@{
+    ViewData["Title"] = "Nueva Linea de Prestamos";
+}
+<form asp-action="_Create">
+
+    @using (Html.BoxBody())
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Nombre" class="control-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CapitalMinimo" class="control-label"></label>
+            <input asp-for="CapitalMinimo" class="form-control" />
+            <span asp-validation-for="CapitalMinimo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CapitalMaximo" class="control-label"></label>
+            <input asp-for="CapitalMaximo" class="form-control" />
+            <span asp-validation-for="CapitalMaximo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CuotaMinima" class="control-label"></label>
+            <input asp-for="CuotaMinima" class="form-control" />
+            <span asp-validation-for="CuotaMinima" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CuotaMaxima" class="control-label"></label>
+            <input asp-for="CuotaMaxima" class="form-control" />
+            <span asp-validation-for="CuotaMaxima" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CantidadCuotasMinima" class="control-label"></label>
+            <input asp-for="CantidadCuotasMinima" class="form-control" />
+            <span asp-validation-for="CantidadCuotasMinima" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CantidadCuotasMaxima" class="control-label"></label>
+            <input asp-for="CantidadCuotasMaxima" class="form-control" />
+            <span asp-validation-for="CantidadCuotasMaxima" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Intervalo" class="control-label"></label>
+            <input asp-for="Intervalo" class="form-control" />
+            <span asp-validation-for="Intervalo" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="SistemaFinanciacion" class="control-label"></label>
+            <select asp-items="@ViewBag.SistemaFinanciacion" asp-for="SistemaFinanciacion.Id" class="form-control" searchable="true"></select>
+            <span asp-validation-for="SistemaFinanciacion" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Moneda" class="control-label"></label>
+            <select asp-items="@ViewBag.Moneda" asp-for="Moneda.Id" class="form-control" searchable="true"></select>
+            <span asp-validation-for="Moneda" class="text-danger"></span>
+        </div>
+    }
+    @using (Html.BoxFooter())
+    {
+        <a class="btn btn-default" asp-action="Index">Cancelar</a>
+        <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+    }
+</form>

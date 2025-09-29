@@ -1,0 +1,60 @@
+﻿    @{
+    ViewData["Title"] = "Tipos de Personas";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border filtro-grilla">
+                <div class="row">
+                    <div class="col-md-2"><h4>Listado de Tipos de Personas</h4></div>
+                    <div class="col-md-10">
+                        <a onclick="nuevoTipoPersona()" title="Nuevo Tipo de Persona" asp- class="pull-right btn btn-info btn-sm">
+                            <i class="fa fa-plus"><span class="hidden-xs"> Nuevo</span></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-hover table-bordered table-responsive borde_interno" id="TipoPersonaDataTable"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<modal title="Edición de Tipos de Personas" callback-modal="true" function="editTipoPersona" load-url="/Core/TiposPersonas/_Update/" size="Medium"></modal>
+<modal title="Borrar Tipos de Personas" callback-modal="true" function="borrarTipoPersona" load-url="/Core/TiposPersonas/_Delete/" size="Medium"></modal>
+<modal title="Nuevo Tipo de Persona" callback-modal="true" function="nuevoTipoPersona" load-url="/Core/TiposPersonas/_Create/" size="Medium"></modal>
+<modal title="Edición de Cuota Social" callback-modal="true" function="editCuota" load-url="/Core/TiposPersonas/_Cuota/" size="Medium"></modal>
+<script type="text/javascript">
+$(function () {
+    var table = $('#TipoPersonaDataTable').DataTable({
+        serverSide: true,
+        processing: true,
+        ajax: {
+            url: '@Url.Action("TiposPersonasDataTable")',
+            type: "POST",
+            },
+        rowId: 'Id',
+        columns: [
+            { data: "Nombre", title: "Tipo de Persona"},
+            { data: "LimiteCuotas", title: "Limite de Cuotas"},
+            { data: "TopePrestamo", title: "Tope Prestamo"},
+            { data: "MontoAmpliacion", title: "Monto Ampliación"},
+            { data: "Organismo", title: "Organismo"},
+            { data: "Cuota", title: "Cuota Social"},
+            {
+                "title": "Acciones",
+                "sortable": false,
+                "render": function(data, type, row) {
+                    var action = '';
+                    action = action + `<a datatoggle='tooltip' title='Editar Tipo de Persona' onclick="editTipoPersona('${row['Id']}')" class="btn btn-primary btn-xs"><i class=" fa fa-file-text-o"></i></a> `;
+                    action = action + `<a datatoggle='tooltip' title='Editar Cuota Social' onclick="editCuota('${row['Id']}')" class="btn btn-success btn-xs"><i class="fa fa-list"></i></a> `;
+                    action = action + `<a datatoggle='tooltip' title='Borrar Tipo de Persona' onclick="borrarTipoPersona('${row['Id']}')" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a> `;
+                    return action;
+                }
+            }
+        ]
+    });
+})
+</script>

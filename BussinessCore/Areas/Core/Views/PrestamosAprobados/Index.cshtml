@@ -1,0 +1,142 @@
+﻿@{
+    ViewData["Title"] = "Listado de Prestamos Aprobados";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border filtro-grilla">
+                <div class="row">
+                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#modal-default" id="BotonPrestamosProblemas">
+                        Prestamo con Problemas
+                    </button>
+                    @*<div class="col-md-2 text-right" style="vertical-align: central">
+                            <h5><b>Desde:</b></h5>
+                        </div>
+                        <div class="col-md-2" style="vertical-align: central">
+                            <input id="Desde" class="form-control" type="date" value="@ViewBag.Desde">
+                        </div>
+                        <div class="col-md-2 text-right" style="vertical-align: central">
+                            <h5><b>Hasta:</b></h5>
+                        </div>
+                        <div class="col-md-2" style="vertical-align: central">
+                            <input id="Hasta" class="form-control" type="date" value="@ViewBag.Hasta">
+                        </div>*@
+                    <div class="col-md-2" style="vertical-align: central">
+                        <a onclick="descargaExcel()" class="btn btn-success btn-sm">
+                            <i class="fa fa-download"></i><span class="hidden-xs"> Descarga Excel</span>
+                        </a>
+                    </div>
+                    <div class="col-md-8" style="vertical-align: central"></div>
+                    <div class="col-md-1" style="vertical-align: central">
+                        @*<a asp-controller="PrestamosAprobados" asp-action="_EnviarNotificacionesPrestamosAprobados" class="btn btn-success btn-sm" title="Enviar Notificación Préstamos">
+                            <i class="fa fa-whatsapp"></i><span class="hidden-xs"> Enviar Notificación </span>
+                        </a>*@
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-hover table-bordered table-responsive" id="PrestamosAprobadosDataTable"></table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+$(function () {
+    var prestamosAprobadostable = $('#PrestamosAprobadosDataTable').DataTable({
+                order: [[0, 'desc']],
+                serverSide: true,
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("PrestamosAprobadosDataTable")',
+                    type: "POST",
+                    data: function (d) {
+                        d.Desde = $("#Desde").val(),
+                        d.Hasta = $("#Hasta").val();
+                    }
+                    },
+                rowId: 'Id',
+                columns: [
+                    { data: "Fecha", title: "Fecha Hora"},
+                    { data: "Cliente", title: "Cliente"},
+                    { data: "Categoria", title: "Categoria"},
+                    { data: "DNI", title: "DNI"},
+                    { data: "Capital", title: "Capital" },
+                    { data: "CantidadCuotas", title: "CantidadCuotas" },
+                    { data: "MontoCuota", title: "MontoCuota" },
+                    {
+                        "title": "Estado",
+                        "sortable": false,
+                        "render": function (data, type, row) {
+                            var action = '';
+                            action = action + `<a datatoggle='tooltip' title='Agregar número de Teléfono' onclick="AddTelefono(${row['DNI']})" class="btn btn-warning btn-xs"><i class="fa fa-phone"></i></a>&nbsp;`;                            
+                            action = action + `<a datatoggle='tooltip' title='Enviar Notificación Préstamo por Mail' onclick="EnviarNotiMail([${row['DNI']}, ${row['Id']}])" class="btn btn-primary btn-xs"><i class="fa fa-envelope"></i></a>&nbsp;`;
+                            action = action + `<a datatoggle='tooltip' title='Enviar Notificación Préstamo por WhatsApp' onclick="EnviarNotiWapp([${row['DNI']}, ${row['Id']}])" class="btn btn-success btn-xs"><i class="fa fa-whatsapp"></i></a>&nbsp;`;
+                            return action;
+                        }
+                    }
+
+                ]
+    });
+
+
+
+        var PrestamosProblemasEntidadDataTable = $('#listadoProblemasPrestamo').DataTable({
+            order: [[0, 'desc']],
+            columnDefs: [{ targets: 2, render: function (data) { return moment(data).format('DD/MM/YYYY'); } }],
+            serverSide: true,
+            processing: true,
+            pageLength: 25,
+            ajax: {
+                url: '@Url.Action("PrestamosProblemasEntidadDataTable")',
+                type: "POST",
+                data: function (data) {
+
+                }
+            },
+            rowId: 'Id',
+            columns: [
+                { data: "IdPrestamo", title: "Prestamo Id" },
+                { data: "DNI", title: "DNI" },
+                { data: "Fecha", title: "Fecha" },
+                { data: "Observacion", title: "Observacion" }
+            ]
+        });
+
+
+})
+    function descargaExcel()
+    {
+        var url = "/Core/PrestamosApp/_DescargaExcel/?Desde=" + document.getElementById("Desde").value + "&Hasta=" + document.getElementById("Hasta").value;
+        window.location.replace(url);
+    }
+</script>
+
+
+<modal callback-modal="true" title="Enviar Notificación por Mail" function="EnviarNotiMail" load-url="/Core/PrestamosAprobados/_EnviarNotificacionPrestamoDTO" size="Medium"></modal>
+<modal callback-modal="true" title="Enviar Notificación por WhatsApp" function="EnviarNotiWapp" load-url="/Core/PrestamosAprobados/_EnviarNotificacionWapp" size="Medium"></modal>
+<modal callback-modal="true" title="Modificar Teléfono" function="AddTelefono" load-url="/Core/PrestamosAprobados/_AgregarTelefono" size="Medium"></modal>
+
+
+<div class="modal fade" id="modal-default">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Prestamos con Problemas</h4>
+            </div>
+            <div class="modal-body">
+                <table id="listadoProblemasPrestamo" class="table table-hover table-bordered table-responsive borde_interno">
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

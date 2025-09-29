@@ -1,0 +1,34 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.LineasPrestamosPlanes 
+@{
+    ViewData["Title"] = "Planes de lineas de Prestamos";
+}
+<form asp-action="_UpdatePlanes">
+
+    @using (Html.BoxBody())
+    {
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" name="LineaPrestamoId" value="@ViewBag.LineaPrestamoId" class="form-control" />
+        <div class="form-group">
+            <label asp-for="MontoPrestado" class="control-label"></label>
+            <input asp-for="MontoPrestado" class="form-control" />
+            <span asp-validation-for="MontoPrestado" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="MontoCuota " class="control-label"></label>
+            <input asp-for="MontoCuota " class="form-control" />
+            <span asp-validation-for="MontoCuota" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CantidadCuotas" class="control-label"></label>
+            <input asp-for="CantidadCuotas" class="form-control" />
+            <span asp-validation-for="CantidadCuotas" class="text-danger"></span>
+        </div>
+
+    }
+    @using (Html.BoxFooter())
+    {
+        <a class="btn btn-default" asp-action="Index">Cancelar</a>
+        <input type="submit" value="Guardar" class="btn btn-primary pull-right" />
+    }
+</form>

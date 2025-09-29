@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "Listado de Prestamos por Vendedor";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border filtro-grilla">
+                <div class="row">
+                        <div class="col-md-5 text-right" style="vertical-align: central">
+                            <h5><b>Desde:</b></h5>
+                        </div>
+                        <div class="col-md-2" style="vertical-align: central">
+                            <input id="Desde" class="form-control" type="date" value="@ViewBag.Desde">
+                        </div>
+                        <div class="col-md-1 text-right" style="vertical-align: central">
+                            <h5><b>Hasta:</b></h5>
+                        </div>
+                        <div class="col-md-2" style="vertical-align: central">
+                            <input id="Hasta" class="form-control" type="date" value="@ViewBag.Hasta">
+                        </div>
+                        <div class="col-md-2" style="vertical-align: central">
+                            <a onclick="descargaPrestamosVendedorExcel()" class="btn btn-success btn-sm">
+                                <i class="fa fa-download"></i><span class="hidden-xs"> Descarga Excel</span>
+                            </a>
+                        </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-hover table-bordered table-responsive" id="PrestamosDataTable"></table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+$(function () {
+    var prestamosApptable = $('#PrestamosDataTable').DataTable({
+                order: [[0, 'desc']],
+                serverSide: true,
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("PrestamosVendedorDataTable")',
+                    type: "POST",
+                    data: function (d) {
+                        d.Desde = $("#Desde").val(),
+                        d.Hasta = $("#Hasta").val();
+                    }
+                    },
+                rowId: 'Id',
+                columns: [
+                    { data: "Fecha", title: "Fecha Hora"},
+                    { data: "Tipo", title: "Tipo"},
+                    { data: "Cliente", title: "Cliente"},
+                    { data: "Categoria", title: "Categoria"},
+                    { data: "DNI", title: "DNI"},
+                    { data: "Capital", title: "Capital" },
+                    { data: "CantidadCuotas", title: "CantidadCuotas" },
+                    { data: "MontoCuota", title: "MontoCuota" },
+                    {
+                        "title": "Estado",
+                        "sortable": false,
+                        "render": function (data, type, row) {
+                            if (row['EstadoId'] == 1 ) {
+                                return `<span class='label label-primary'>${row['Estado']}</span>`;
+                            }
+                            if (row['EstadoId'] == 7) {
+                                return `<span class='label label-success'>${row['Estado']}</span>`;
+                            }
+                            if (row['EstadoId'] == 3) {
+                                return `<span class='label label-warning'>${row['Estado']}</span>`;
+                            }
+                        }
+                    }
+                ]
+    });
+    $("#Desde").change(function () {
+        prestamosApptable.draw();
+    });
+    $("#Hasta").change(function () {
+        prestamosApptable.draw();
+    });
+})
+    function descargaPrestamosVendedorExcel()
+    {
+        var url = "/Core/Prestamos/_DescargaExcel/?Desde=" + document.getElementById("Desde").value + "&Hasta=" + document.getElementById("Hasta").value;
+        window.location.replace(url);
+    }
+</script>

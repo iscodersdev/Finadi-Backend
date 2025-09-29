@@ -1,0 +1,53 @@
+﻿@model Commons.Models.Page<DAL.Models.SistemasFinanciacion>
+
+<div class="box box-info">
+    <div class="box-header with-border filtro-grilla">
+        <span class="txt-titulo-box">Listado de Sistemas de Financiación</span>
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a onclick="nuevoSistemasFinanciacion()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nuevo</span></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body">
+        <table id="listadoSistemasFinanciacion" class="table table-hover table-bordered table-responsive borde_interno">
+            <thead>
+                <tr>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            <a onclick="editSistemasFinanciacion('@item.Id')" title="Editar Sistemas Financiación" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" confirm-icon="Danger" confirm-no="Cancelar" confirm-yes="Borrar" confirm="¿Esta seguro de borrar este Sistema de Financiacion?" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<modal title="Nuevo Sistema de Financiación" callback-modal="true" function="nuevoSistemasFinanciacion" load-url="/Core/SistemasFinanciacion/_Create/" size="Medium"></modal>
+<modal title="Edición de Sistema de Financiación" callback-modal="true" function="editSistemasFinanciacion" load-url="/Core/SistemasFinanciacion/_Update/" size="Medium"></modal>
+
+<script>
+    $(document).ready(function () {
+        $('#listadoSistemasFinanciacion').DataTable({
+            "columnDefs": [{ "width": "90%", "targets": 0 }, { "width": "10%", class: "text-center", "searchable": false, "orderable": false, "targets": 1 }],
+            "language": {
+                'url': '@Url.Content("~/lib/arg.json")'
+            }
+        });
+    });
+</script>

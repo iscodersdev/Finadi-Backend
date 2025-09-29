@@ -1,0 +1,27 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.Core.Inversor
+@{
+    ViewData["Title"] = "Asignar Inversor";
+}
+<form method="post" asp-action="_AsignarInversor" asp-controller="PrestamosApp" asp-area="Core" asp-antiforgery="true">
+    @Html.AntiForgeryToken()
+    @using (Html.BoxDefault(BoxColor.Info))
+    {
+        using (Html.BoxBody())
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="PrestamoId" value="@ViewBag.Id" />
+            <div class="form-group">
+                <label  asp-for="Id" class="control-label">Inversores</label>
+                <select asp-items="@ViewBag.Inversores" asp-for="Id" class="form-control" searchable="true"></select>
+            </div>
+        }
+        @using (Html.BoxFooter())
+        {
+
+            <a class="btn btn-danger" data-dismiss="modal">Cancelar</a>
+            <button type="submit" class="btn btn-info pull-right">Agregar</button>
+
+        }
+    }
+</form>

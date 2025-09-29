@@ -1,0 +1,69 @@
+﻿@using Commons.HtmlHelpers
+@using Microsoft.EntityFrameworkCore.Internal
+@model DAL.Models.LineasPrestamosPlanes
+@*<a asp-action="_BajaPlantilla"  asp-route-version="@Model.Id" asp-controller="Versiones" target="_blank" id="Plantilla" class="btn btn-success btn-block">Descarga Plantilla</a>*@
+
+
+<a onclick="_BajaPlantilla('@ViewBag.LineaPrestamoId')" id="plani" class="btn btn-success btn-block">Descarga Plantilla</a>
+<br />
+
+<form asp-action="_LineasPrestamosPlanesExell" method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-12">
+            <label>Carga Plantilla</label>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <div class="input-group input-file" name="File">
+                    <input type="text" class="form-control" placeholder='Persione aquí para cargar un archivo...' />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-choose" type="button">Buscar</button>
+                    </span>
+                </div>
+            </div>
+            <button type="submit" value="Subir Archivo" class="btn btn-info pull-right">Subir Archivo</button>
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+    function bs_input_file() {
+        $(".input-file").before(
+            function () {
+                if (!$(this).prev().hasClass('input-ghost')) {
+                    var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
+                    element.attr("name", $(this).attr("name"));
+                    element.change(function () {
+                        element.next(element).find('input').val((element.val()).split('\\').pop());
+                    });
+                    $(this).find("button.btn-choose").click(function () {
+                        element.click();
+                    });
+                    $(this).find("button.btn-reset").click(function () {
+                        element.val(null);
+                        $(this).parents(".input-file").find('input').val('');
+                    });
+                    $(this).find('input').css("cursor", "pointer");
+                    $(this).find('input').mousedown(function () {
+                        $(this).parents('.input-file').prev().click();
+                        return false;
+                    });
+                    return element;
+                }
+            }
+        );
+    }
+
+    function _BajaPlantilla(Prestamoid) {
+        window.open("/Core/LineasPrestamos/_BajaPlantilla?Id=" + Prestamoid);
+        if ($('#editarRenglonesModal').is(':visible')) {
+            $('#editarRenglonesModal').modal('hide');
+        }
+    };
+
+    $(function () {
+        bs_input_file();
+    });
+
+</script>

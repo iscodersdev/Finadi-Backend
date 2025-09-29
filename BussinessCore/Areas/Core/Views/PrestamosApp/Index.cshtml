@@ -1,0 +1,202 @@
+﻿@{
+    ViewData["Title"] = "Listado de Prestamos por App";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border filtro-grilla">
+                <div class="row">
+                    <div class="col-md-2" style="vertical-align: central">
+                        <b>Desde:</b>
+                        <input id="Desde" class="form-control" type="date" value="@ViewBag.Desde">
+                    </div>
+                    <div class="col-md-2" style="vertical-align: central">
+                        <b>Hasta:</b>
+                        <input id="Hasta" class="form-control" type="date" value="@ViewBag.Hasta">
+                    </div>
+                    <div class="col-md-2" style="vertical-align: central">
+                        <b>Ampliación:</b>
+                        <select asp-items="@ViewBag.Ampliacion" id="SearchAmpliacion" class="form-control" searchable="true"></select>
+                    </div>
+                    <div class="col-md-2" style="vertical-align: central">
+                        <b>Estados:</b>
+                        <select asp-items="@ViewBag.Estados" id="SearchEstados" class="form-control" searchable="true"></select>
+                    </div>
+                    <div class="col-md-1" style="vertical-align: central"></div>
+                    <div class="col-md-1  col-sm-4" style="vertical-align: central">
+                        <b>&nbsp;</b>
+                        <a onclick="descargaExcel()" class="btn btn-success btn-sm form-control" style="width: 180px;">
+                            <i class="fa fa-download"></i><span class="hidden-xs" style=" font-size: larger;"> Descarga Excel</span>
+                        </a>
+                    </div>
+
+                    @*<div class="col-md-1 col-sm-4" style="vertical-align: central">
+                        <b>&nbsp;</b>
+                        <a class="btn btn-primary btn-sm form-control" onclick="EnviarPrestamosCGE()" style=" font-size: larger;">
+                        @if (ViewBag.PendienteCGE != 0)
+                        {
+                        <span class="badge bg-purple hidden-xs" style=" position: absolute; top: 11px; left: 162px;">@ViewBag.PendienteCGE</span>
+                        <span class="badge bg-purple hidden-lg" style=" position: absolute; top: 11px; left: 348px;">@ViewBag.PendienteCGE</span>
+                        }
+                        <i class="fa fa-retweet"></i> <span class="hidden-xs">&nbsp; Enviar</span>
+                        </a>
+                        </div>
+
+                        <div class="col-md-1  col-sm-4" style="vertical-align: central">
+                        <b>&nbsp</b>
+                        <a onclick="ActualizarEstados()" class="btn btn-warning btn-sm form-control" style=" font-size: larger;">
+                        <i class="fa fa-refresh"></i><span class="hidden-xs">&nbsp; Actualizar Estados</span>
+                        </a>
+                        </div>*@
+
+                    @*<div class="col-md-1 col-sm-4" style="vertical-align: central">
+                        <b>&nbsp</b>
+                        <a onclick="ActualizarEstados()" class="btn btn-warning btn-sm btn-social-icon form-control" title="Actualizar Estados de Prestamos">
+                        <i class="fa fa-refresh"></i><span class="hidden-xs"> </span>
+                        </a>
+                        </div>*@
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-hover table-bordered table-responsive" id="PrestamosAppDataTable"></table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        var prestamosApptable = $('#PrestamosAppDataTable').DataTable({
+                    order: [[0, 'desc']],
+                    serverSide: true,
+                    processing: true,
+                    ajax: {
+                        url: '@Url.Action("PrestamosAppDataTable")',
+                        type: "POST",
+                        data: function (d) {
+                            d.Desde = $("#Desde").val(),
+                            d.Hasta = $("#Hasta").val();
+                        }
+                        },
+                    rowId: 'Id',
+                    columns: [
+                        { data: "Fecha", title: "Fecha Hora"},
+                        { data: "Tipo", title: "Tipo"},
+                        { data: "Cliente", title: "Cliente"},
+                        { data: "Categoria", title: "Categoria"},
+                        { data: "DNI", title: "DNI"},
+                        { data: "Capital", title: "Capital" },
+                        { data: "CantidadCuotas", title: "CantidadCuotas" },
+                        { data: "MontoCuota", title: "MontoCuota" },
+                        { data: "MontoCuotaAmpliada", title: "Monto Cuota Ampliada" },
+                        { data: "Disponible", title: "Disponible" },
+                        { data: "Inversor", title: "Inversor" },
+                        {
+                            "title": "Estado",
+                            "sortable": false,
+                            "render": function (data, type, row) {
+                                var action = '';
+                                action = action + `<a datatoggle='tooltip' title='Ver Legajo FINADI' onclick="verLegajo(${row['Id']})" class="btn btn-info btn-xs"><i class="fa fa-print"></i></a>&nbsp;`;
+                                action = action + `<a datatoggle='tooltip' title='Ver Legajo Inaes' onclick="verLegajoInae(${row['Id']})" class="btn btn-warning btn-xs"><i class="fa fa-print"></i></a>&nbsp;`;
+                                action = action + `<a datatoggle='tooltip' title='Ver Legajo Inversor' onclick="verLegajoMasVenta(${row['Id']})" class="btn btn-info btn-xs"><i class="fa fa-print"></i></a>&nbsp;`;
+                                action = action + `<a datatoggle='tooltip' title='Sueldo Neto y Primer Vencimiento' onclick="modificaPrestamo(${row['Id']})" class="btn btn-warning btn-xs"><i class="fa fa-user-plus"></i></a>&nbsp;`;
+                                if (row['EstadoId'] > 0) {
+                                    action = action + `<a datatoggle='tooltip' title='Asignar Inversor' onclick="AsignarInversor(${row['Id']})" class="btn btn-info btn-xs"><i class="fa fa-file-text-o"></i></a>&nbsp;`;
+                                }
+                                if (row['EstadoId'] == 1 ) {
+                                    action = action + `<span class='label label-primary'>${row['Estado']}</span>`;
+                                }
+                                if (row['EstadoId'] == 2) {
+                                    action = action + `<span class='label label-warning'>${row['Estado']}</span>`;
+                                }
+                                if (row['EstadoId'] == 3) {
+                                    action = action + `<span class='label label-warning'>${row['Estado']}</span>`;
+                                }
+                                if (row['EstadoId'] == 4) {
+                                    action = action + `<span class='label bg-purple'>${row['Estado']}</span>`;
+                                }
+                                if (row['EstadoId'] == 5) {
+                                    action = action + `<span class='label label-warning'>${row['Estado']}</span>`;
+                                }
+                                if (row['EstadoId'] == 6) {
+                                    action = action + `<span class='label label-warning'>${row['Estado']}</span>`;
+                                }
+                                if (row['EstadoId'] == 7) {
+                                    action = action + `<span class='label label-success'>${row['Estado']}</span>`;
+                                }
+                                if (row['EstadoId'] == 8) {
+                                    action = action + `<span class='label label-success'>${row['Estado']}</span>`;
+                                }
+                                if (row['EstadoId'] == 9) {
+                                    action = action + `<span class='label label-warning'>${row['Estado']}</span>`;
+                                }
+                                return action;
+                            }
+                        },
+                        { data: "EstadoFiltroId", title: "EstadoFiltro", visible: false },
+                        { data: "AmpliacionFiltroId", title: "AmpliacionFiltro", visible: false },
+                    ]
+        });
+
+        $("#Desde").change(function () {
+            prestamosApptable.draw();
+        });
+        $("#Hasta").change(function () {
+            prestamosApptable.draw();
+        });
+
+
+        $("#SearchAmpliacion").change(function () {
+            var selectAmpliacion = $("#SearchAmpliacion").val();
+            switch (selectAmpliacion) {
+                case "0":
+                    prestamosApptable.column(13).search("").draw();
+                    break;
+                case "1":
+                    prestamosApptable.column(13).search("1").draw();
+                    break;
+                case "2":
+                    prestamosApptable.column(13).search("2").draw();
+                    break;
+                default:
+            }
+        });
+
+        $("#SearchEstados").change(function () {
+            var selectEstado = $("#SearchEstados").val();
+            if (selectEstado == "Null") {
+                prestamosApptable.column(12).search("").draw();
+            } else {
+                prestamosApptable.column(12).search(selectEstado).draw();
+            }
+        });
+
+    })
+        function descargaExcel()
+        {
+            var url = "/Core/PrestamosApp/_DescargaExcel/?Desde=" + document.getElementById("Desde").value + "&Hasta=" + document.getElementById("Hasta").value;
+            window.location.replace(url);
+        }
+        function ActualizarEstados() {
+            var url = "/Core/PrestamosApp/_ActualizarEstados/";
+            window.location.replace(url);
+        }
+        function NotificarPrestamos() {
+            var url = "/Core/PrestamosApp/_EnviarNotificacionPrestamosAprobados/";
+            window.location.replace(url);
+        }
+        function EnviarPrestamosCGE() {
+            var url = "/Core/PrestamosApp/_EnviarPrestamosCGE/";
+            window.location.replace(url);
+        }
+
+</script>
+
+<modal title="Ver Legajo FINADI" function="verLegajo" load-url="/Core/PrestamosApp/_LegajoOnline/" size="Large"></modal>
+<modal title="Ver Legajo Inversor" function="verLegajoMasVenta" load-url="/Core/PrestamosApp/_LegajoMasVenta/" size="Large"></modal>
+<modal title="Ver Legajo Inaes" function="verLegajoInae" load-url="/Core/PrestamosApp/_LegajoOnlineInae/" size="Large"></modal>
+<modal title="Asignar Inversor" function="AsignarInversor" load-url="/Core/PrestamosApp/_AsignarInversor/" size="Large"></modal>
+<modal callback-modal="true" title="Sueldo Neto y Primer Vencimiento" function="modificaPrestamo" load-url="/Core/PrestamosApp/_SueldoNetoPrimerVencimiento" size="Medium"></modal>
+

@@ -1,0 +1,54 @@
+﻿@using DAL.Models
+@model List<LineasPrestamosTiposPersonas>
+<div class="box box-info">
+    <div class="box-header with-border filtro-grilla">
+        <span class="txt-titulo-box">Tipos Personas de Linea de Prestamo</span>
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">     
+            <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+                <a onclick="addTipoPersona(@ViewBag.LineaPrestamoId)" class="btn btn-info btn-sm">
+                    <i class="fa fa-plus"><span class="hidden-xs"> Agregar</span></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="box-body">
+        <table class="table table-hover table-bordered table-responsive" id="LineasPrestamosTiposPersonasDataTable"></table>
+    </div>
+</div>
+
+
+        <modal title="Agregar Tipo Persona a Linea de Prestamos" callback-modal="true" function="addTipoPersona" load-url="/Core/LineasPrestamos/_AddTipoPersonaLineasPrestamos/" size="Medium"></modal>
+        <modal title="Borrar Tipo de Persona de Linea de Prestamo" function="borrarTipoPersonaLineaPrestamo" load-url="/Core/LineasPrestamos/DeleteTipoPersonaLineasPrestamos/" size="Medium"></modal>
+        <script>
+
+        $(function () {
+            var table = $('#LineasPrestamosTiposPersonasDataTable').DataTable({
+                serverSide: true,
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("LineasPrestamosTipoPersonasDataTable")',
+                    type: "POST",
+                    data: {
+                        id: '@Html.Raw(@ViewBag.LineaPrestamoId)',
+                    }
+                },
+                rowId: 'Id',
+                columns: [
+                    { data: "NombreTipoPersona", title: "Nombre Tipo Persona"},
+                    { data: "Organismo", title: "Organismo" },
+                    {
+                        "title": "Acciones",
+                        "sortable": false,
+                        "render": function(data, type, row) {
+                            var action = '';                            
+                            //action = action + `<a datatoggle='tooltip' title='Borrar Tipo de Persona de Linea de Prestamo' onclick="borrarTipoPersonaLineaPrestamo('${row['Id']}')" class="btn btn-danger btn-xs"><i class=" fa fa-trash-o"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Borrar Tipo de Persona de Linea de Prestamo' href="/Core/LineasPrestamos/DeleteTipoPersonaLineasPrestamos/${row['Id']}" class="btn btn-danger btn-xs"><i class=" fa fa-trash-o"></i></a> `;
+
+                            return action;
+                        }
+                    }
+                ]
+
+               });
+})
+        </script>

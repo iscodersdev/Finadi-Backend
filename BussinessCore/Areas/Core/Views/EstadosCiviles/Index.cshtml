@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Estados Civiles";
+}
+
+@using DAL.Models
+@model IEnumerable<EstadosCiviles>
+
+<div class="box box-info">
+    <div class="box-header with-border filtro-grilla">
+        <span class="txt-titulo-box">Listado de Estados Civiles</span>
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a onclick="nuevoEstadoCivil()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nuevo</span></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body">
+        <table id="listadoEstadoCivil" class="table table-hover table-bordered table-responsive borde_interno">
+            <thead>
+                <tr>
+                    <th>
+                        Estado Civil
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ToList())
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        <a onclick="editEstadoCivil(@item.Id)" title="Editar Estado Civil" class="btn btn-primary btn-xs"><i class="fa fa-file-text-o"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" confirm-icon="Danger" confirm-no="Cancelar" confirm-yes="Borrar" confirm="¿Esta seguro de borrar este Estado Civil?" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<modal title="Edición de Estado Civil" callback-modal="true" function="editEstadoCivil" load-url="/Core/EstadosCiviles/_Update/" size="Medium"></modal>
+<modal title="Nuevo Estado Civil" callback-modal="true" function="nuevoEstadoCivil" load-url="/Core/EstadosCiviles/_Create/" size="Medium"></modal>
+
+
+<script>
+    $(document).ready(function () {
+        $('#listadoEstadoCivil').DataTable(
+        {
+            "columnDefs": [{ "width": "90%", "targets": 0 }, { "width": "10%",class:"text-center","searchable": false,"orderable": false,"targets": 1}],
+            "language": {
+                'url': '@Url.Content("~/lib/arg.json")'
+            }
+        }
+    );
+    });
+</script>
+
+

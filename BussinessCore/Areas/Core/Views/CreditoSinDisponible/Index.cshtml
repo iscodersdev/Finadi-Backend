@@ -1,0 +1,63 @@
+﻿@using Commons.HtmlHelpers
+@using DAL.DTOs
+@model IQueryable<ClienteSinDisponobleDTO>
+@{
+    ViewData["Title"] = "Clientes";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border filtro-grilla">
+                <div class="row">
+                    <div class="col-md-2"><h4>Listado de Clientes Sin Disponible</h4></div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-hover table-bordered table-responsive" id="ClienteDataTable"></table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+$(function () {
+    var table = $('#ClienteDataTable').DataTable({
+                "columnDefs": [
+                    { "searchable": false, "targets": [0, 3] }
+                ],
+                serverSide: true,
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("ClienteDataTable")',
+                    type: "POST",
+                    },                
+                rowId: 'Id',
+                columns: [
+                    { data: "NombreCompleto", title: "Nombre Completo"},
+                    { data: "DNI", title: "DNI" },
+                    { data: "FechaIngreso", title: "Fecha Ingreso"},
+                    { data: "Disponible", title: "Disponible" },
+                    {
+                        "title": "Estado",
+                        class: "text-center",
+                        "sortable": false,
+                        "render": function (data, type, row) {
+                            var estado = '';
+                            if (row['Estado'])
+                                estado = estado + `<span class='pull-right-container'><small class='label bg-green'>Validado</small></span> `;
+                            else
+                                estado = estado + `<span class='pull-right-container'><small class='label bg-yellow'>Pendiente</small></span> `;
+                            return estado
+                        }
+                    }],
+
+    });
+})
+
+    function validCliente(id) {
+        $("#ModalValdiarCliente").modal("show");
+        $("#ValdiarClienteId").val(id);
+    }
+</script>

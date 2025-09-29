@@ -1,0 +1,98 @@
+﻿@using Commons.Extensions
+
+@{
+    ViewData["Title"] = "Usuarios";
+    ViewData["BackArrow"] = "/Home/Index";
+}
+
+
+<div class="box box-info">
+    <div class="box-header with-border filtro-grilla">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-9 label-form"><label for="estadoId">Listado de Usuarios</label></div>
+                <div class="col-md-3">
+                    <div class="col-md-6">
+                        @if (User.Identity.Name == "pruebasFINADI@FINADI.com")
+                        {
+                            <a onclick="validarUsuariosCGE()" title="Crear Usuario" class="btn btn-primary btn-sm btn-warning"><i class="fa fa-wrench"></i>&nbsp Validar Usuarios con CGE</a>
+                        }
+
+                    </div>
+                    <div class="col-md-6">
+                        <a onclick="NuevoUsuario()" title="Crear Usuario" class="btn btn-primary btn-sm"><i class="fa fa-user"></i>&nbsp Crear Usuario</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-body">
+        <table class="table table-hover table-bordered table-responsive borde_interno" id="usersTable"></table>
+    </div>
+</div>
+
+
+<modal title="Usuario" function="verUsuario" load-url="/Admin/Usuario/_DetalleUsuario" size="Large"></modal>
+<modal callback-modal="true" title="Creacion de Usuario" function="crearUsuarioNumeroDocumento" load-url="/Admin/Usuario/_BuscarPersonaPorDocumento" size="Medium"></modal>
+<modal title="Modificar roles" load-url="/SecurityRoles/_Assign" function="Roles"></modal>
+<modal callback-modal="true" title="Reportes" load-url="/Admin/Usuario/_ReportesUsuario" function="Reportes" size="Large"></modal>
+<modal callback-modal="true" title="Nuevo Usuario" load-url="/Administracion/Usuarios/Create" function="NuevoUsuario" size="Medium"></modal>
+
+<modal title="Editar Usuario" callback-modal="true" function="editUser" load-url="/Administracion/Usuarios/Update/" size="Medium"></modal>
+<modal title="Cambiar Password Web" callback-modal="true" function="UpdatePassword" load-url="/Administracion/Usuarios/UpdatePasswordWeb/" size="Medium"></modal>
+
+<script>
+    $(function() {
+            var usersTable = $('#usersTable').DataTable({
+                serverSide: true,
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("UsuariosDataTable")',
+                    type: "POST"
+                },
+                rowId: 'Id',
+                columns: [
+                    {
+                        data: "Usuario", title: "Usuario", responsivePriority: 1
+                    },
+                    {
+                        data: "Nombre", title: "Nombre", responsivePriority: 2
+                    },
+                    {
+                        data: "Empresa", title: "Empresa", responsivePriority: 3
+                    },
+                    {
+                        "title": "Actions",
+                        "sortable": false,
+                        responsivePriority: 1,
+                        "render": function (data, type, row) {
+                            var action = '';
+                            action = action + `<a onclick="Roles('${row['Id']}')" title="Asignar Roles" class="btn btn-primary btn-xs"><i class="fa fa-plus"></i></a> &nbsp`;
+                            action = action +
+                                `<a onclick="editUser('${row['Id']}')" title="Editar Usuario" class="btn btn-info btn-xs"><i class="fa fa-pencil"></i></a> &nbsp`;
+                            //action = action +
+                             //   `<a onclick="UpdatePassword('${row['Id']}')" title="Cambiar Password Web" class="btn btn-warning btn-xs"><i class="fa fa-pencil"></i></a> &nbsp`;
+                            return action;
+                        }
+                    }
+
+                ]
+            });
+        }
+    )
+
+    function validarUsuariosCGE() {
+        $.ajax({
+            type: "POST",
+            url: "Usuarios/validarUsuariosCGE",
+            success: function (datos) {
+                alert(datos);
+            },
+        });
+    }
+
+
+
+</script>
+
+

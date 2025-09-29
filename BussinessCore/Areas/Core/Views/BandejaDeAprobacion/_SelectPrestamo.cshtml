@@ -1,0 +1,71 @@
+﻿
+
+
+<input name="TipoPersonaId" id="TipoPersonaId" value="@ViewBag.TipoPersonaId" hidden />
+<div class="form-group">
+    <label class="control-label"> Monto Prestado: </label>
+    <select-ajax title="Escribe el monto de Prestamo."
+                 class="form-control"
+                 id="LineaPlanPrestamoSelect"
+                 name="montoPrestamo"
+                 url="@Url.Action("PlanesLineasPrestamoCombo", $"BandejaDeAprobacion", new { TipoPersonaId = ViewBag.TipoPersonaId})"
+                 color="Primary"
+                 width="100%"
+                 text-no-results="<h4 class='text-center'>no hay ninguna linea de prestamo acorde a ese monto.</h4>"></select-ajax>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Cantidad de Cuotas</label>
+            <select name="cuotaPrestamo" id="cuotasSelect" class="form-control" searchable="true" disabled="disabled">
+                <option value='0' disabled='disabled' selected>Seleccione Cuota</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="control-label">Monto de Cuotas</label>
+            <input type="text" class="form-control" name="valorCuotaPrestamo" id="montoCuota" readonly />
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#LineaPlanPrestamoSelect').on('change', function () {
+        console.log("LineaPlanPrestamoSelect")
+        $.ajax({
+            url: "/Core/BandejaDeAprobacion/ComboCuotaPrestamo",
+            data: {
+                monto: $('#LineaPlanPrestamoSelect').val(),
+                tipoPersonaId: $('#TipoPersonaId').val()
+            },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $('#cuotasSelect').prop("disabled", false);
+                $('#montoCuota').val("");
+                $('#cuotasSelect').empty(data).selectpicker('refresh');
+                $('#cuotasSelect').append(data);
+                $('#cuotasSelect').selectpicker('refresh');
+            }
+        });
+    });
+
+    $('#cuotasSelect').on('change', function () {
+        console.log("cuotasSelect")
+        $.ajax({
+            url: "/Core/BandejaDeAprobacion/ComboValorCuotaPrestamo",
+            data: {
+                monto: $('#LineaPlanPrestamoSelect').val(),
+                cuotas: $('#cuotasSelect').val(),
+                tipoPersonaId: $('#TipoPersonaId').val()
+            },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $('#montoCuota').val(data);
+            }
+        });
+    });
+</script>

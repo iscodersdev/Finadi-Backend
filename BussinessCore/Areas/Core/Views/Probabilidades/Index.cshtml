@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Matriz de Riesgo - Probabilidades";
+}
+
+@using DAL.Models
+@model IEnumerable<MatrizProbabilidades>
+
+<div class="box box-info">
+    <div class="box-header with-border filtro-grilla">
+        <span class="txt-titulo-box">Listado de Probabilidades de Matriz de Riesgo</span>
+        <div class="input-group input-group-sm pull-right" style="max-width: 300px;">
+            <a onclick="nuevaProbabilidad()" class="btn btn-info btn-sm">
+                <i class="fa fa-plus"><span class="hidden-xs"> Nuevo</span></i>
+            </a>
+        </div>
+    </div>
+    <div class="box-body">
+        <table id="listadoProbabilidad" class="table table-hover table-bordered table-responsive borde_interno">
+            <thead>
+                <tr>
+                    <th>
+                        Probabilidad
+                    </th>
+                    <th>
+                        Acciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ToList())
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            <a onclick="editProbabilidad(@item.Id)" title="Editar Probabilidad" class="btn btn-primary btn-xs"><i class="fa fa-file-text-o"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" confirm-icon="Danger" confirm-no="Cancelar" confirm-yes="Borrar" confirm="¿Esta seguro de borrar esta Probabilidad?" class="btn btn-danger btn-xs"><i class="fa fa-trash-o"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<modal title="Edición de Probabilidad" callback-modal="true" function="editProbabilidad" load-url="/Core/Probabilidades/_Update/" size="Medium"></modal>
+<modal title="Nueva Probabilidad" callback-modal="true" function="nuevaProbabilidad" load-url="/Core/Probabilidades/_Create/" size="Medium"></modal>
+
+<script>
+    $(document).ready(function () {
+        $('#listadoProbabilidad').DataTable(
+        {
+            "columnDefs": [{ "width": "85%", "targets": 0 }, { "width": "15%",class:"text-center","searchable": false,"orderable": false,"targets": 1}],
+            "language": {
+                'url': '@Url.Content("~/lib/arg.json")'
+            }
+        }
+    );
+    });
+</script>

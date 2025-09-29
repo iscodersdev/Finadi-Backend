@@ -1,0 +1,109 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.Prestamos
+@{
+    ViewData["Title"] = $"Modificar Solicitud de Prestamo de {ViewBag.NombreCompleto})";
+}
+<form method="post" asp-action="NuevoPrestamoOtroOrganismo" asp-antiforgery="true">
+    @Html.AntiForgeryToken()
+    @using (Html.BoxDefault(BoxColor.Info))
+    {
+        using (Html.BoxBody())
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="@Model.Id" type="hidden" />
+            <input id="Organismo" name="Organismo" type="hidden" />
+
+              <div class="form-group">
+                <label class="control-label"> Cliente: </label>
+                <select-ajax title="Apellido o DNI del Cliente."
+                             class="form-control"
+                             id="ClienteSelect"
+                             name="client"
+                            url="@Url.Action("ClientePrestamoCombo", $"BandejaDeAprobacion")"
+                             color="Primary"
+                             width="100%"
+                             text-no-results="<h4 class='text-center'>no hay ninguna linea de prestamo acorde a ese monto.</h4>"></select-ajax>
+            </div>
+            <hr>
+
+            <div id="loadSolicitarPrestamo"></div>
+
+
+           
+        }
+        @using (Html.BoxFooter())
+        {
+            <a class="btn btn-danger" data-dismiss="modal">Cancelar</a>
+            <button type="submit" class="btn btn-info pull-right">Guardar</button>
+        }
+    }
+</form>
+<script>
+    if ('@ViewBag.reload' == 'True') {
+        location.reload();
+    }
+
+    $('.dropdown-menu.inner.selectpicker').on('click', function (e) {
+        console.log("SIIIIIIIII");
+        //e.stopImmediatePropagation();
+        $.ajax({
+            url: "/Core/BandejaDeAprobacion/TipoOrganismoAjax",
+            data: {
+                clienteId: $('#ClienteSelect').val(),
+            },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                console.log(data)
+                $('#Organismo').val(data);
+                $('#loadSolicitarPrestamo').load('/Core/BandejaDeAprobacion/_SolicitarPrestamo?TipoPersonaId='+data);
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
+    //$('#LineaPlanPrestamoSelect').on('change', function () {
+    //    $.ajax({
+    //        url: "/Core/BandejaDeAprobacion/ComboCuotaPrestamo",
+    //        data: {
+    //            monto: $('#LineaPlanPrestamoSelect').val(),
+    //            tipoPersonaId: $('#TipoPersonaId').val()
+    //        },
+    //        type: "GET",
+    //        dataType: "html",
+    //        success: function (data) {
+    //            $('#cuotasSelect').prop("disabled", false);
+    //            $('#montoCuota').val("");
+    //            $('#cuotasSelect').empty(data).selectpicker('refresh');
+    //            $('#cuotasSelect').append(data);
+    //            $('#cuotasSelect').selectpicker('refresh');
+    //        }
+    //    });
+    //});
+
+    //$('#cuotasSelect').on('change', function () {
+    //    $.ajax({
+    //        url: "/Core/BandejaDeAprobacion/ComboValorCuotaPrestamo",
+    //        data: {
+    //            monto: $('#LineaPlanPrestamoSelect').val(),
+    //            cuotas: $('#cuotasSelect').val(),
+    //            tipoPersonaId: $('#TipoPersonaId').val()
+    //        },
+    //        type: "GET",
+    //        dataType: "html",
+    //        success: function (data) {
+    //            $('#montoCuota').val(data);
+    //        }
+    //    });
+    //});
+
+</script>
+
+

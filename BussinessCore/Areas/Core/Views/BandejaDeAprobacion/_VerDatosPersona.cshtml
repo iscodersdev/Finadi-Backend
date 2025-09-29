@@ -1,0 +1,48 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.Clientes
+@{
+    ViewData["Title"] = "Datos Persona";
+}
+
+        @using (Html.BoxDefault(BoxColor.Info))
+        {
+            using (Html.BoxHeader("Datos del Causante"))
+            {
+            }
+            using (Html.BoxBody())
+            {
+                    if (@ViewBag.Foto)
+                    {
+                        <img class="profile-user-img img-responsive img-circle" src="@ViewBag.Foto" alt="Foto">
+                    }else{
+                        <img class="profile-user-img img-responsive img-circle" src="~/images/default-user-image.png" alt="Foto">
+                    }
+                
+
+                <h3 class="profile-username text-center">@Model.Persona.Apellido, @Model.Persona.Nombres</h3>
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+     
+                <hr />
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="Telefono" class="control-label"></label>
+                    <input asp-for="Telefono" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Telefono" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Celular" class="control-label"></label>
+                    <input asp-for="Celular" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Celular" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Usuario.Email" class="control-label"></label>
+                    <input asp-for="Usuario.Email" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Usuario.Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Usuario.UserName" class="control-label"></label>
+                    <input asp-for="Usuario.UserName" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="Usuario.UserName" class="text-danger"></span>
+                </div>
+            }
+        }

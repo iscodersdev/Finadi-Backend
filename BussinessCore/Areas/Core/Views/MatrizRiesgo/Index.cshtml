@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Matriz de Riesgo";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-info">
+            <div class="box-header with-border filtro-grilla">
+                <div class="row">
+                    <div class="col-md-3"><h4>Listado de Matrizes de Riesgo</h4></div>
+                    <div class="col-md-9">
+                        <a onclick="nuevaMatriz()" class="pull-right btn btn-info btn-sm">
+                            <i class="fa fa-plus"><span class="hidden-xs"> Nuevo</span></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-hover table-bordered table-responsive" id="MatrizDataTable"></table>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="matrizRenglones">
+    @if (@ViewBag.MatrizRiesgoId != null && @ViewBag.MatrizRiesgoId != 0)
+    {
+        <load id="tablaMatrizRenglones" load-url="/Core/MatrizRiesgo/_ListarMatrizRenglones/@ViewBag.MatrizRiesgoId"></load>
+    }
+</div>
+
+<modal title="Edición de Matriz" callback-modal="true" function="editMatriz" load-url="/Core/MatrizRiesgo/_Update/" size="Large"></modal>
+<modal title="Nueva Matriz" callback-modal="true" function="nuevaMatriz" load-url="/Core/MatrizRiesgo/_Create/" size="Large"></modal>
+
+<script type="text/javascript">
+$(function () {
+    var table = $('#MatrizDataTable').DataTable({
+                serverSide: true,
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("MatrizDataTable")',
+                    type: "POST",
+                    },
+                rowId: 'Id',
+                columns: [
+                    { data: "Cliente", title: "Cliente"},
+                    { data: "Fecha", title: "Fecha"},
+                    { data: "Prestamo", title: "Prestamo"},
+                    {
+                        "title": "Acciones",
+                        "sortable": false,
+                        "render": function(data, type, row) {
+                            var action = '';
+                                action = action + `<a datatoggle='tooltip' title='Editar Matriz' onclick="editMatriz('${row['Id']}')" class="btn btn-primary btn-xs"><i class=" fa fa-file-text-o"></i></a> `;
+                            action = action + `<a datatoggle='tooltip' title='Editar Renglones de la Matriz' onclick="listarRenglonesMatriz('${row['Id']}')" class="btn btn-success btn-xs"><i class=" fa fa-server"></i></a> `;
+                                return action;
+                        }
+         }]
+
+    });
+})
+function listarRenglonesMatriz(Id) {
+    $.ajax({
+        url: "/Core/MatrizRiesgo/_ListarMatrizRenglones",
+        data: {
+            Id: Id
+        },
+        type: "GET",
+        error: function (e) {
+            $("#matrizRenglones").html("<div class='alert alert-danger alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button><h4><i class='icon fa fa-ban'></i>ERROR</h4></div>");
+        },
+        success: function (data) {
+            $("#matrizRenglones").html(data);
+        }
+    });
+}
+</script>

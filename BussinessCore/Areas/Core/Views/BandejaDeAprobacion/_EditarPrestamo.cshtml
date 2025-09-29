@@ -1,0 +1,185 @@
+﻿@using Commons.HtmlHelpers
+@model DAL.Models.Prestamos
+@{
+    ViewData["Title"] = $"Modificar Solicitud de Prestamo de {ViewBag.NombreCompleto})";
+}
+<form method="post" asp-action="EditarPrestamo" asp-antiforgery="true">
+    @Html.AntiForgeryToken()
+    @using (Html.BoxDefault(BoxColor.Info))
+    {
+        using (Html.BoxBody())
+        {
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="@Model.Id" type="hidden" />
+            <input id="TipoPersonaId" value="@ViewBag.TipoPersonaId" type="hidden" />
+            <input id="LineaPrestamoId" name="LineaPlanPrestamoId" type="hidden" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Capital" class="control-label"></label>
+                        <input asp-for="Capital" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Capital En Letras</label>
+                        <input asp-for="CapitalEnLetras" class="form-control" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Cantidad de Cuota</label>
+                        <input asp-for="CantidadCuotas" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Cantidad de Cuotas en Letras</label>
+                        <input asp-for="CuotasEnLetras" class="form-control" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Monto de Cuota</label>
+                        <input asp-for="MontoCuota" class="form-control" readonly />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Monto de Cuota en Letras</label>
+                        <input asp-for="MontoCuotaEnLetras" class="form-control" readonly />
+                    </div>
+                </div>
+            </div>
+
+
+            <hr>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Lineas de Prestamos</label>
+                        <select name="LineaPrestamo" id="LineaPrestamo" asp-items="@ViewBag.LineaPrestamo" class="form-control">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+              <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Monto Prestado</label>
+                        <select id="LineaPlanPrestamoSelect" name="montoPrestamo" class="selectpicker with-ajax" data-live-search="true">
+                            <option value='0' selected>Escribe Monto</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Cantidad de Cuotas</label>
+                        <select name="cuotaPrestamo" id="cuotasSelect" class="form-control" searchable="true" disabled="disabled">
+                            <option value='0' disabled='disabled' selected>Seleccione Cuota</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label">Monto de Cuotas</label>
+                        <input type="text" class="form-control" name="valorCuotaPrestamo" id="montoCuota" readonly />
+                        <span asp-validation-for="MontoCuota" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        }
+        @using (Html.BoxFooter())
+        {
+            <a class="btn btn-danger" data-dismiss="modal">Cancelar</a>
+            <button type="submit" id="botonGuardarCambios" disabled="disabled" class="btn btn-info pull-right">Guardar</button>
+        }
+    }
+</form>
+<script>
+    $('#LineaPrestamoId').val($('#LineaPrestamo').val());
+
+    $('#LineaPrestamo').on("change", function(){        
+        $('#LineaPrestamoId').val($('#LineaPrestamo').val());
+        $('#LineaPlanPrestamoSelect').empty().selectpicker('refresh');
+        $('#LineaPlanPrestamoSelect').append("<option value='0' disabled='disabled' selected>Escribe Monto Cuota</option>").selectpicker('refresh');
+        $('#cuotasSelect').empty().selectpicker('refresh');
+        $('#cuotasSelect').append("<option value='0' disabled='disabled' selected>Seleccione Cuota</option>").selectpicker('refresh');
+    });
+
+    if ('@ViewBag.reload' == 'True') {
+        location.reload();
+    }
+
+    $('#LineaPlanPrestamoSelect').on('change', function () {
+        $.ajax({
+            url: "/Core/BandejaDeAprobacion/ComboCuotaPrestamo",
+            data: {
+                monto: $('#LineaPlanPrestamoSelect').val(),
+                LinePrestamoId: $('#LineaPrestamo').val()
+            },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $('#cuotasSelect').prop("disabled", false);
+                $('#montoCuota').val("");
+                $('#cuotasSelect').empty().selectpicker('refresh');
+                $('#cuotasSelect').append(data);
+                $('#cuotasSelect').selectpicker('refresh');
+            }
+        });
+    });
+
+    $('#cuotasSelect').on('change', function () {
+        $.ajax({
+            url: "/Core/BandejaDeAprobacion/ComboValorCuotaPrestamo",
+            data: {
+                monto: $('#LineaPlanPrestamoSelect').val(),
+                cuotas: $('#cuotasSelect').val(),
+                LinePrestamoId: $('#LineaPrestamo').val()
+            },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $('#montoCuota').val(data);
+                $('#botonGuardarCambios').prop("disabled", false);
+            }
+        });
+    });
+
+    $('.input-block-level.form-control').on('input ', function () {
+        $.ajax({
+            url: "/Core/BandejaDeAprobacion/PlanesLineasPrestamoCombo",
+            data: {
+                q: this.value,
+                LinePrestamoId: $('#LineaPrestamo').val()
+            },
+            type: "GET",
+            dataType: "html",
+            success: function (data) {
+                $('#LineaPlanPrestamoSelect').empty();
+                $('#LineaPlanPrestamoSelect').append(data);
+                $('#LineaPlanPrestamoSelect').selectpicker('refresh');
+            }
+        });
+
+    });
+
+
+
+
+
+
+</script>
+
+
