@@ -255,10 +255,8 @@ namespace FINADICore
             }
             try
             {
-                string usuario = "albarracin_sergio@hotmail.com";
-                string password = "w2cPVg3n9Xq6C7KO";
-                //string usuario = "novedades@ampromm.org.ar";
-                //string password = "BWSNmr7qGLdHYKz2";
+                string usuario = "39ad53001@smtp-brevo.com";
+                string password = "K90kxAdQmTtjpJHv";
                 var origen = new MailAddress("noresponder@FINADI.org.ar", "FINADI");
                 string host = "smtp-relay.sendinblue.com";
                 int puerto = 587;
