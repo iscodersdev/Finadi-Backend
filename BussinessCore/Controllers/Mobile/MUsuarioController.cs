@@ -466,8 +466,8 @@ namespace FINADI.Controllers
                 uat.Mensaje = "Persona Sin Correo Declarado";
                 return uat;
             }
-            sHTML += $"Estimado: {cliente.Persona.Apellido},{cliente.Persona.Nombres}, para Poder Recuperar Su Contraseña <a href = 'http://web.finadi.com.ar/Identity/Account/ResetPassword?code=" + pass + "'> Haga Click Aqui</a>.";
-            string imagen = "<img src =http://web.finadi.com.ar/images/Placa_Recupera_Contrasena.png><br/>";
+            sHTML += $"Estimado: {cliente.Persona.Apellido},{cliente.Persona.Nombres}, para Poder Recuperar Su Contraseña <a href = 'https://portalfinadi.com.ar/Identity/Account/ResetPassword?code=" + pass + "'> Haga Click Aqui</a>.";
+            string imagen = "<img src =https://portalfinadi.com.ar/images/Placa_Recupera_Contrasena.png><br/>";
             //common.EnviarMail("acevedoruben@hotmail.com", "FINADI - Recuperacion de Contraseña", sHTML, "");
             common.EnviarMail(cliente.Usuario.UserName, "FINADI - Recuperacion de Contraseña", sHTML, "", imagen);
             uat.Status = 200;
