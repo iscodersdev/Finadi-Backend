@@ -41,6 +41,7 @@ namespace DAL.Models
         public int EmpresaId { get; set; }
         public int TipoPersonaId { get; set; }
         public bool BloquearPrestamos { get; set; }
+        public bool EsEjercito { get; set; }
     }
     public class MRegistraPersonaDTO
     {

@@ -132,6 +132,7 @@ namespace FINADI.Controllers
                 Login.TipoPersonaId = cliente.Persona.TipoPersona.Id;
                 Login.Status = 200;
                 Login.UAT = FINADICore.common.Encrypt(DateTime.Now.ToString("ffffssmmHHddMMyyyy") + cliente.Id.ToString(), "FINADI");
+                Login.EsEjercito = false;
                 if (cliente.TipoCliente == null)
                 {
                     Login.Categoria = "No Asociado Aun";
@@ -139,6 +140,10 @@ namespace FINADI.Controllers
                 else
                 {
                     Login.Categoria = cliente.TipoCliente.Nombre;
+                }
+                if(cliente.Persona.TipoPersona.Organismo.APIEjercito is true)
+                {
+                    Login.EsEjercito = true;
                 }
                 Login.Foto = cliente.Persona.Foto;
                 Login.Mail = cliente.Usuario.Email;
