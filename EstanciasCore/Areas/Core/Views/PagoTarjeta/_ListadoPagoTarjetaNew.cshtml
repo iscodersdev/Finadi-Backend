@@ -88,9 +88,8 @@
                 { data: "FechaOrden", title: "FechaOrden",  visible: false},
                 { data: "Persona", title: "Cliente" },
                 { data: "NroDocumento", title: "NroDocumento" },
-                { data: "FechaVencimiento", title: "Fecha Vencimiento" },
-                { data: "FechaComprobante", title: "Fecha Comprobante" },
-                { data: "MontoAdeudado", title: "Monto de Cuota" },
+                { data: "FechaDePago", title: "Fecha Informada" },
+                { data: "FechaComprobante", title: "Fecha de carga" },
                 { data: "MontoInformado", title: "Monto Informado" },
                 {
                     "title": "EstadoPago",
@@ -409,7 +408,7 @@
         var fechaRango = $('#fecha').val();
         var estado = $('#estado').val();
         var fecha = data[4]; // índice de la columna FechaVencimiento
-        var estadoPagoId = data[7]; // índice de la columna EstadoPago
+        var estadoPagoId = data[6]; // índice de la columna EstadoPago
 
         if (fechaRango !== '') {
           var fechas = fechaRango.split(' - ');

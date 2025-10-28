@@ -538,7 +538,7 @@ namespace EstanciasCore.API.Controllers.Billetera
                         FechaComprobante = DateTime.Now,
                         FechaPagoProximaCuota = fechaVencimiento,
                         ComprobantePago = pagotarjetaDTO.ComprobantePago,
-                        FechaDePago = DateTime.Now,
+                        FechaDePago = ConvertirFechaCompleta(pagotarjetaDTO.FechaComprobante),
                         MontoInformado = Convert.ToDecimal(pagotarjetaDTO.MontoInformado)
 
                     };
