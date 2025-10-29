@@ -35,7 +35,7 @@ public class ResumenTarjetaReportesController : EstanciasCoreController
 
     public IActionResult Index()
     {
-        breadcumb.Add(new Message() { DisplayName = "Resumen de Tarjeta" });
+        breadcumb.Add(new Message() { DisplayName = "Resumen de Tarjeta" }); 
         ViewBag.Breadcrumb = breadcumb;
         return View();
     }
