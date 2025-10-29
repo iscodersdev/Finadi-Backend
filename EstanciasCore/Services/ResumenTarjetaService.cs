@@ -68,6 +68,8 @@ public class ResumenTarjetaService : IResumenTarjetaService
                 // Buscamos si ya existe un período para la fecha actual.
                 periodo = await context.Periodo.FirstOrDefaultAsync(p => fechaActual.Date >= p.FechaDesde.Date && fechaActual.Date <= p.FechaHasta.Date);
 
+                periodo = await context.Periodo.FirstOrDefaultAsync(p => p.Id==89);
+
                 if (periodo == null)
                 {
                     // Si no existe, lo creamos para el mes actual.                    
@@ -145,7 +147,7 @@ public class ResumenTarjetaService : IResumenTarjetaService
             // --- 4. Guardado de Resultados ---
             using (var scope = _scopeFactory.CreateScope())
             {
-                var finalContext = scope.ServiceProvider.GetRequiredService<EstanciasContext>();
+                var finalContext = scope.ServiceProvider.GetRequiredService<EstanciasContext>(); 
 
                 // 1. Agrega los resúmenes que se generaron correctamente
                 await finalContext.AddRangeAsync(resumenesGenerados);
@@ -215,10 +217,22 @@ public class ResumenTarjetaService : IResumenTarjetaService
                 decimal TotalRedondeo = 0;
                 decimal MontoDisponible = 0;
                 List<MovimientoTarjetaDTO> comprasAgrupadas = new List<MovimientoTarjetaDTO>();
-                //DateTime fechaActual = new DateTime(2025, 7, 25); //Cambiar para modo Prueba
-                DateTime fechaActual = DateTime.Now;
-                int diasEnMes = DateTime.DaysInMonth(fechaActual.Year, fechaActual.Month);
-                DateTime fechaActualCuotas = new DateTime(fechaActual.Year, fechaActual.Month, diasEnMes);
+                //DateTime fechaMesActualCuotas = new DateTime(2025, 10, 01); //Cambiar para modo Prueba
+                DateTime fechaMesActualCuotas = DateTime.Now;
+                fechaMesActualCuotas = new DateTime(fechaMesActualCuotas.Year, fechaMesActualCuotas.AddMonths(1).Month, 01); //Cambiar para modo Prueba
+
+                int diasEnMes = DateTime.DaysInMonth(fechaMesActualCuotas.Year, fechaMesActualCuotas.Month);
+
+                if (fechaMesActualCuotas.Day > 15)
+                {
+                    DateTime fechaPunitorios = new DateTime(fechaMesActualCuotas.Year, fechaMesActualCuotas.Month, diasEnMes);
+                }
+                else
+                {
+                    DateTime fechaPunitorios = new DateTime(fechaMesActualCuotas.Year, fechaMesActualCuotas.Month, 15);
+                }
+
+                DateTime fechaActualCuotas = new DateTime(fechaMesActualCuotas.Year, fechaMesActualCuotas.Month, diasEnMes);
                 DateTime fechaActualCuotasProximo = fechaActualCuotas.AddMonths(1);
 
                 // 2. OBTENEMOS LOS SERVICIOS Y EL DBCONTEXT DE ESTE SCOPE
@@ -235,7 +249,7 @@ public class ResumenTarjetaService : IResumenTarjetaService
                 }
 
                 // 4. EJECUTAMOS TU LÓGICA DE NEGOCIO ORIGINAL
-                var datosMovimientos = await scopedDatosServices.ConsultarMovimientos(datosEstructura.UsernameWS, datosEstructura.PasswordWS, usuario.NroDocumento, numeroTarjetaConvertido, 100, 0);
+                var datosMovimientos = await scopedDatosServices.ConsultarMovimientos(datosEstructura.UsernameWS, datosEstructura.PasswordWS, usuario.NroDocumento, numeroTarjetaConvertido, 100, 1);
 
                 if (datosMovimientos.Detalle.Resultado == "EXITO")
                 {
@@ -245,7 +259,7 @@ public class ResumenTarjetaService : IResumenTarjetaService
                     MontoDisponible = Math.Round(Convert.ToDecimal(datosMovimientos.Detalle.MontoDisponible.Replace(".", ",")), 2);
 
                     //Calcula Cuota del Mes
-                    var datosResumen = await scopedDatosServices.CuotasDetallesResumen(datosMovimientos, fechaActual);
+                    var datosResumen = await scopedDatosServices.CuotasDetallesResumen(datosMovimientos, fechaActualCuotas);
 
                     //Calculo de Punitorios
                     var datosResumenConPunitorios = scopedDatosServices.CalcularPunitoriosResumen(datosResumen).Result;
@@ -264,12 +278,12 @@ public class ResumenTarjetaService : IResumenTarjetaService
                         pdfBytesPDF = memoryStream.ToArray();
                     }
 
-                    var codigo = common.Encrypt(datosParaResumenDTO.NroDocumento, fechaActual.ToString("ddMMyyyy"));
+                    var codigo = common.Encrypt(datosParaResumenDTO.NroDocumento, fechaMesActualCuotas.ToString("ddMMyyyy"));
 
                     // 5. CREAMOS EL RESUMEN USANDO IDs, NO ENTIDADES COMPLETAS
                     var resumenTarjeta = new ResumenTarjeta
                     {
-                        Fecha = fechaActual,
+                        Fecha = fechaMesActualCuotas,
                         FechaVencimiento = periodo.FechaVencimiento,
                         Monto = datosParaResumenDTO.SaldoActual,
                         MontoAdeudado = datosParaResumenDTO.SaldoPendiente,

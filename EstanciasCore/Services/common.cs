@@ -937,6 +937,38 @@ namespace EstanciasCore.Services
             }
             return;
         }
+        /// <summary>
+        /// Convierte Fehca con HH:mm:ss
+        /// </summary>
+        /// <param name="fechaStr"></param>
+        /// <returns></returns>
+        public static DateTime? ConvertirFechaCompleta(string fechaStr)
+        {
+            // 1. Define el formato de tu string. Ejemplo: "2025-10-27 11:25:32"
+            string formato = "yyyy-MM-dd HH:mm";
+
+            DateTime fechaDT;
+
+            // 2. Intenta la conversión
+            bool exito = DateTime.TryParseExact(
+                fechaStr,
+                formato,
+                CultureInfo.InvariantCulture, // Usar cultura invariable (sin depender de la región del sistema)
+                DateTimeStyles.None,
+                out fechaDT
+            );
+
+            if (exito)
+            {
+                return fechaDT;
+            }
+            else
+            {
+                // Devuelve null (o lanza tu propia excepción si lo prefieres)
+                return null;
+            }
+        }
+
     }
 
     public class BaseDataAccess

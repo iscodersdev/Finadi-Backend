@@ -29,6 +29,7 @@ namespace DAL.DTOs
         public string NroDocumento { get; set; }
         public string Usuario { get; set; }
         public string NroTarjeta { get; set; }
+        public string FechaDePago { get; set; }
         public string FechaVencimiento { get; set; }
         public string MontoAdeudado { get; set; }
         public string MontoInformado { get; set; }
