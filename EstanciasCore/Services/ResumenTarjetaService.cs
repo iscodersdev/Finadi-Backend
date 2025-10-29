@@ -147,7 +147,7 @@ public class ResumenTarjetaService : IResumenTarjetaService
             // --- 4. Guardado de Resultados ---
             using (var scope = _scopeFactory.CreateScope())
             {
-                var finalContext = scope.ServiceProvider.GetRequiredService<EstanciasContext>();
+                var finalContext = scope.ServiceProvider.GetRequiredService<EstanciasContext>(); 
 
                 // 1. Agrega los resúmenes que se generaron correctamente
                 await finalContext.AddRangeAsync(resumenesGenerados);
