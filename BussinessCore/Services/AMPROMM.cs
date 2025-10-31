@@ -103,7 +103,7 @@ namespace FINADICore
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -114,7 +114,7 @@ namespace FINADICore
                     {
                         using (var client2 = new HttpClient())
                         {
-                            client2.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                            client2.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                             MDatosPersonaDTO datospersona = new MDatosPersonaDTO();
                             datospersona.UAT = login.UAT;
                             datospersona.DNI = DNI;
@@ -174,7 +174,7 @@ namespace FINADICore
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -185,7 +185,7 @@ namespace FINADICore
                     {
                         using (var client2 = new HttpClient())
                         {
-                            client2.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                            client2.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                             MDatosPersonaDTO datospersona = new MDatosPersonaDTO();
                             datospersona.UAT = login.UAT;
                             datospersona.eMail = eMail;
@@ -243,7 +243,7 @@ namespace FINADICore
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -254,7 +254,7 @@ namespace FINADICore
                     {
                         using (var client2 = new HttpClient())
                         {
-                            client2.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                            client2.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                             MDatosPersonaDTO datospersona = new MDatosPersonaDTO();
                             datospersona.UAT = login.UAT;
                             datospersona.eMail = cliente.Usuario.UserName;
@@ -480,7 +480,7 @@ namespace FINADICore
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -491,7 +491,7 @@ namespace FINADICore
                     {
                         using (var client2 = new HttpClient())
                         {
-                            client2.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                            client2.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                             provincia.UAT = login.UAT;
                             HttpResponseMessage response2 = client2.PostAsJsonAsync("TraeListaProvincias", provincia).Result;
                             if (response2.IsSuccessStatusCode)
@@ -521,7 +521,7 @@ namespace FINADICore
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -532,7 +532,7 @@ namespace FINADICore
                     {
                         using (var client2 = new HttpClient())
                         {
-                            client2.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                            client2.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                             unidad.UAT = login.UAT;
                             unidad.ProvinciaId = ProvinciaId;
                             HttpResponseMessage response2 = client2.PostAsJsonAsync("TraeListaUnidades", unidad).Result;
@@ -562,7 +562,7 @@ namespace FINADICore
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -573,7 +573,7 @@ namespace FINADICore
                     {
                         using (var client2 = new HttpClient())
                         {
-                            client2.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                            client2.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                             MDatosPersonaDTO datospersona = new MDatosPersonaDTO();
                             datospersona.UAT = login.UAT;
                             datospersona.DNI = DNI;
@@ -613,7 +613,7 @@ namespace FINADICore
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -624,7 +624,7 @@ namespace FINADICore
                     {
                         using (var client2 = new HttpClient())
                         {
-                            client2.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                            client2.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                             MDatosPersonaDTO datospersona = new MDatosPersonaDTO();
                             datospersona.UAT = login.UAT;
                             datospersona.eMail = eMail;
@@ -663,7 +663,7 @@ namespace FINADICore
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -674,7 +674,7 @@ namespace FINADICore
                     {
                         using (var client2 = new HttpClient())
                         {
-                            client2.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                            client2.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                             MDatosPersonaDTO datospersona = new MDatosPersonaDTO();
                             datospersona.UAT = login.UAT;
                             datospersona.DNI = DNI;
@@ -704,7 +704,7 @@ namespace FINADICore
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -715,7 +715,7 @@ namespace FINADICore
                     {
                         using (var client2 = new HttpClient())
                         {
-                            client2.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                            client2.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                             MDatosPersonaDTO datospersona = new MDatosPersonaDTO();
                             datospersona.UAT = login.UAT;
                             datospersona.eMail = eMail;
@@ -746,7 +746,7 @@ namespace FINADICore
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -757,7 +757,7 @@ namespace FINADICore
                     {
                         using (var client2 = new HttpClient())
                         {
-                            client2.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                            client2.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                             datos.MaximoDisponible = campana.MaximoDisponible;
                             datos.MinimoDisponible = campana.MinimoDisponible;
                             datos.ProvinciaId = campana.ProvinciaId;
@@ -888,7 +888,7 @@ namespace FINADICore
                     login.CUIT = empresa.CUIT;
                     login.Password = empresa.PasswordCGE;
                     login.Token = empresa.TokenCGE;
-                    client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                    client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                     HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                     if (response.IsSuccessStatusCode)
                     {
@@ -906,7 +906,7 @@ namespace FINADICore
                 {
                     using (var client2 = new HttpClient())
                     {
-                        client2.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                        client2.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                         datos.UAT = login.UAT;
                         datos.Nombres = Nombres;
                         datos.Apellido = Apellido;
@@ -932,7 +932,7 @@ namespace FINADICore
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -943,7 +943,7 @@ namespace FINADICore
                     {
                         using (var client2 = new HttpClient())
                         {
-                            client2.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                            client2.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                             MDatosScoringDTO datospersona = new MDatosScoringDTO();
                             datospersona.UAT = login.UAT;
                             datospersona.DNI = DNI;

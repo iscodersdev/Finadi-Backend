@@ -25,7 +25,6 @@ namespace FINADICore.Controllers
         }
         public IActionResult Index()
         {
-
             //ViewBag.Breadcrumb = breadcumb;
             //ActualizaPersonaUser();
             ////var establecimiento = GetEstablecimiento();

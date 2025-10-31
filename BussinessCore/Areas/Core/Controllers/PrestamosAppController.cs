@@ -92,7 +92,7 @@ namespace FINADICore.Areas.Core.Controllers
                 using (var client = new HttpClient())
                 {
                     consulta.PrestamoCGEId = prestamo.PrestamoCGEId;
-                    client.BaseAddress = new Uri("https://www.cge.mil.ar:83/api/mentidades/");
+                    client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                     HttpResponseMessage response = client.PostAsJsonAsync("ConsultaEstadoPrestamo", consulta).Result;
                     if (response.IsSuccessStatusCode)
                     {
@@ -152,7 +152,7 @@ namespace FINADICore.Areas.Core.Controllers
                         solicitud.EntidadId = itemPrestamo.Cliente.Empresa.EntidadIdCGE;
                         //solicitud.Precancelaciones = itemPrestamo.;
                         solicitud.MontoCuotaAmpliado = itemPrestamo.Cliente.Persona.TipoPersona.MontoAmpliacion;
-                        client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                        client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                         HttpResponseMessage response = client.PostAsJsonAsync("SolicitaPrestamo", solicitud).Result;
                         if (response.IsSuccessStatusCode)
                         {
@@ -184,7 +184,7 @@ namespace FINADICore.Areas.Core.Controllers
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
