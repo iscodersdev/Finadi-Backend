@@ -120,7 +120,7 @@ namespace FINADI.Controllers
             {
 
                 //var cliente = _context.Clientes.FirstOrDefault(x => x.Usuario.UserName == Login.Mail && x.FechaBaja == null && (x.Empresa.Id == Login.EmpresaId || Login.EmpresaId == 0));
-                var cliente = _context.Clientes.FirstOrDefault(x => x.Usuario.UserName == Login.Mail && x.FechaBaja == null );
+                var cliente = _context.Clientes.FirstOrDefault(x => x.Usuario.UserName == Login.Mail);
                 if (cliente == null)
                 {
                     Login.Status = 500;
@@ -468,7 +468,7 @@ namespace FINADI.Controllers
             }
             sHTML += $"Estimado: {cliente.Persona.Apellido},{cliente.Persona.Nombres}, para Poder Recuperar Su Contraseña <a href = 'https://portalfinadi.com.ar/Identity/Account/ResetPassword?code=" + pass + "'> Haga Click Aqui</a>.";
             string imagen = "<img src =https://portalfinadi.com.ar/images/Placa_Recupera_Contrasena.png><br/>";
-            //common.EnviarMail("acevedoruben@hotmail.com", "FINADI - Recuperacion de Contraseña", sHTML, "");
+            //common.EnviarMail("jorge.cutulli@iscoders.com.ar", "FINADI - Recuperacion de Contraseña", sHTML, "");
             common.EnviarMail(cliente.Usuario.UserName, "FINADI - Recuperacion de Contraseña", sHTML, "", imagen);
             uat.Status = 200;
             uat.Mensaje = "Para Recuperar su Contrasena Se Ha Enviado un Correo a la Casilla: " + cliente.Usuario.UserName.Substring(0, 2) + asteriscos.Substring(0, correoinicial[0].Length - 2) + "@" + correoinicial[1] + " En el Caso de No Verlo en Bandeja De Entrada, revise su Correo No Deseado o SPAM";

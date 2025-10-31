@@ -61,7 +61,7 @@ namespace FINADICore.Areas.Core.Controllers
             disponible.DNI = Convert.ToInt32(cliente.Persona.NroDocumento);
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("TraeDisponible", disponible).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -85,7 +85,7 @@ namespace FINADICore.Areas.Core.Controllers
                 login.CUIT = empresa.CUIT;
                 login.Password = empresa.PasswordCGE;
                 login.Token = empresa.TokenCGE;
-                client.BaseAddress = new Uri("https://www.cge.mil.ar:81/api/mentidades/");
+                client.BaseAddress = new Uri("https://haberes20.cge.mil.ar/api/mentidades/");
                 HttpResponseMessage response = client.PostAsJsonAsync("Login", login).Result;
                 if (response.IsSuccessStatusCode)
                 {
