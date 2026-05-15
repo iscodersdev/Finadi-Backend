@@ -1,3 +1,8 @@
 is_global = true
 build_property.RootNamespace = FINADICore
-build_property.ProjectDir = C:\Users\HP\Source\Workspaces\FINADI\BussinessCore\
+build_property.ProjectDir = C:\Users\Beni\Documents\GitHub\Finadi-Backend\BussinessCore\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.CsWinRTUseWindowsUIXamlProjections = false
+build_property.EffectiveAnalysisLevelStyle = 
+build_property.EnableCodeStyleSeverity = 

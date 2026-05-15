@@ -54,7 +54,7 @@ namespace FINADICore.Areas.Core.Controllers
             }
             else
             {
-                datos = FINADICore.FINADI.TraeClientes(_context.Empresas.Find(1), apellido, nombres, DNI, this.HttpContext.Session.GetString("UAT"));
+                datos = FINADICore.FINADI.TraeClientes(_context.Empresas.FirstOrDefault(), apellido, nombres, DNI, this.HttpContext.Session.GetString("UAT"));
             }
             var personas = datos.Renglones.Select(x => new
             {
@@ -78,7 +78,7 @@ namespace FINADICore.Areas.Core.Controllers
             }
             else
             {
-                cliente = FINADI.TraeDatosScoring(_context.Empresas.Find(1), DNI, _context);
+                cliente = FINADI.TraeDatosScoring(_context.Empresas.FirstOrDefault(), DNI, _context);
             }
             scoring.Scoring = 10;
             scoring.Apellido = cliente.Apellido;

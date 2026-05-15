@@ -709,11 +709,28 @@ namespace FINADI.Controllers
                 preregistro.Mensaje = "Socio Ya Ingresado, debera recuperar contraseña";
                 return preregistro;
             }
+
+            var organismo = _context.Organismos.FirstOrDefault(x => x.Id == Registro.OrganismoId);
+
+            var tipopersona = _context.TiposPersonas.Where(x => x.Organismo.Activo && x.Organismo.Id == Registro.OrganismoId).OrderBy(x => x.Organismo.Orden);
+            if (tipopersona != null)
+            {
+                List<MListaTipoPersonas> lista = new List<MListaTipoPersonas>();
+                foreach (var tipopers in tipopersona)
+                {
+                    MListaTipoPersonas TipoPersona = new MListaTipoPersonas();
+                    TipoPersona.Id = tipopers.Id;
+                    TipoPersona.Descripcion = tipopers.nombre;
+                    lista.Add(TipoPersona);
+                }
+                preregistro.TipoPersonas = lista;
+            }
+
             int token = common.NiumeroRandom(100000, 999999);
             string html = "";
 
 
-            var organismo = _context.Organismos.Find(Registro.OrganismoId);
+            //var organismo = _context.Organismos.Find(Registro.OrganismoId);
             if (organismo.APIEjercito == true)
             {
                 var datoscge = FINADICore.FINADI.TraeDatosPersona20CGE(_context.Empresas.FirstOrDefault(), Registro.eMail, _context, token);
@@ -742,30 +759,13 @@ namespace FINADI.Controllers
 
                 html = "<br/>Sr: " + datoscge.Nombres + " " + datoscge.Apellido + "<br/><br/>";
                 html += "Su Token de Registro es: " + token.ToString() + "<br/><br/>";
-                string imagen = "<img src=http://web.finadi.com.ar/images/Placa_Token.png><br/>";
+                string imagen = "<img src=https://portalfinadi.com.ar/images/Placa_Token.png><br/>";
                 common.EnviarMail(datoscge.Mail, "Token Registro FINADI", html, "", imagen);
                 return preregistro;
 
             }
 
             // SI ES OTRO ORGANISMO
-            var tipopersona = _context.TiposPersonas.Where(x => x.Organismo.Activo && x.Organismo.Id == Registro.OrganismoId).OrderBy(x => x.Organismo.Orden);
-            if (tipopersona != null)
-            {
-                List<MListaTipoPersonas> lista = new List<MListaTipoPersonas>();
-                foreach (var tipopers in tipopersona)
-                {
-                    MListaTipoPersonas TipoPersona = new MListaTipoPersonas();
-                    TipoPersona.Id = tipopers.Id;
-                    TipoPersona.Descripcion = tipopers.nombre;
-                    lista.Add(TipoPersona);
-                }
-                preregistro.TipoPersonas = lista;
-            }
-
-            preregistro.Status = 300;
-            preregistro.Mensaje = "No es personal de Ejercito";
-
             if (usuario == null)
             {
                 var user = new Usuario()
@@ -779,7 +779,7 @@ namespace FINADI.Controllers
                 {
                     html = "<br/>Sr: " + Registro.eMail + "<br/><br/>";
                     html += "Su Token de Registro es: " + token.ToString() + "<br/><br/>";
-                    string imagen = "<img src=http://web.finadi.com.ar/images/Placa_Token.png><br/>";
+                    string imagen = "<img src=https://portalfinadi.com.ar//images/Placa_Token.png><br/>";
                     common.EnviarMail(Registro.eMail.Trim(), "Token Registro FINADI", html, "", imagen);
                     preregistro.Mensaje = "Usuario creado con Exito";
                 }
@@ -793,7 +793,7 @@ namespace FINADI.Controllers
                     _context.SaveChanges();
                     html = "<br/>Sr: " + Registro.eMail + "<br/><br/>";
                     html += "Su Token de Registro es: " + token.ToString() + "<br/><br/>";
-                    string imagen = "<img src=http://web.finadi.com.ar/images/Placa_Token.png><br/>";
+                    string imagen = "<img src=https://portalfinadi.com.ar/images/Placa_Token.png><br/>";
                     common.EnviarMail(Registro.eMail.Trim(), "Token Registro FINADI", html, "", imagen);
                     preregistro.Mensaje = "Envio email con Token !!";
                 }

@@ -2,7 +2,7 @@
 <RptDataSource xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="FINADI">
   <ConnectionProperties>
     <Extension>SQL</Extension>
-    <ConnectString>Data Source=186.189.235.119;Initial Catalog=FINADI_prod</ConnectString>
+    <ConnectString>Data Source=192.168.77.10;Initial Catalog=FINADI_prod</ConnectString>
   </ConnectionProperties>
   <DataSourceID>c941a9b2-087f-4cc3-a06a-d090d2add4da</DataSourceID>
 </RptDataSource>

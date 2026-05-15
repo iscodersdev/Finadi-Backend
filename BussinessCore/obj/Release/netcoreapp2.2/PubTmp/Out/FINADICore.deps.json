@@ -3862,7 +3862,10 @@
           "Microsoft.SqlServer.SqlManagementObjects": "161.44091.28"
         },
         "runtime": {
-          "DAL.dll": {}
+          "DAL.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         },
         "compile": {
           "DAL.dll": {}

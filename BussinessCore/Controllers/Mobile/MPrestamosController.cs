@@ -156,7 +156,7 @@ namespace FINADI.Controllers
             }
             uat.Status = 200;
             uat.Mensaje = "Lineas Ok";
-            if (Uat.Cliente.Persona.TipoPersona.Organismo.Id == 1)
+            if (Uat.Cliente.Persona.TipoPersona.Organismo.APIEjercito is true)
             {
                 MTraeDsiponibleCGEDTO disponible = new MTraeDsiponibleCGEDTO();
                 disponible.UAT = LoginCGE(Uat.Cliente.Empresa);

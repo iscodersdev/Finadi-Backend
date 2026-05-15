@@ -148,7 +148,7 @@ namespace DAL.Data
             var optionsBuilder = new DbContextOptionsBuilder<FINADIContext>();
             // optionsBuilder.UseSqlServer("Server=localhost;Database=FINADICore;Trusted_Connection=True;MultipleActiveResultSets=true");
             //optionsBuilder.UseSqlServer("Server=localhost;Database=FINADI;Trusted_Connection=True;MultipleActiveResultSets=true");
-            optionsBuilder.UseSqlServer("Server=186.189.235.119;Database=FINADI_prod;user=sa;password=Crisis2040;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer("Server=araucanaweb.com.ar;Database=FINADI_prod;user=sa;password=Crisis2040;MultipleActiveResultSets=true");
 
             return new FINADIContext(optionsBuilder.Options);
         }

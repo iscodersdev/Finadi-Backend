@@ -255,8 +255,8 @@ namespace FINADICore
             }
             try
             {
-                string usuario = "8f0e79001@smtp-brevo.com";
-                string password = "zx37QwV6YpatZBIj";
+                string usuario = "8f0e79002@smtp-brevo.com";
+                string password = "bsk7IAlQlb67wXk";
                 var origen = new MailAddress("sender@servicemailing.com.ar", "FINADI");
                 string host = "smtp-relay.sendinblue.com";
                 int puerto = 587;

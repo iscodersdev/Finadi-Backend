@@ -8,3 +8,14 @@ C:\Users\HP\Source\Workspaces\FINADI\DAL\obj\Debug\netcoreapp2.2\DAL.AssemblyInf
 C:\Users\HP\Source\Workspaces\FINADI\DAL\obj\Debug\netcoreapp2.2\DAL.csproj.CoreCompileInputs.cache
 C:\Users\HP\Source\Workspaces\FINADI\DAL\obj\Debug\netcoreapp2.2\DAL.dll
 C:\Users\HP\Source\Workspaces\FINADI\DAL\obj\Debug\netcoreapp2.2\DAL.pdb
+C:\Users\Beni\Documents\GitHub\Finadi-Backend\DAL\bin\Debug\netcoreapp2.2\DAL.deps.json
+C:\Users\Beni\Documents\GitHub\Finadi-Backend\DAL\bin\Debug\netcoreapp2.2\DAL.dll
+C:\Users\Beni\Documents\GitHub\Finadi-Backend\DAL\bin\Debug\netcoreapp2.2\DAL.pdb
+C:\Users\Beni\Documents\GitHub\Finadi-Backend\DAL\obj\Debug\netcoreapp2.2\DAL.csproj.AssemblyReference.cache
+C:\Users\Beni\Documents\GitHub\Finadi-Backend\DAL\obj\Debug\netcoreapp2.2\DAL.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Beni\Documents\GitHub\Finadi-Backend\DAL\obj\Debug\netcoreapp2.2\DAL.AssemblyInfoInputs.cache
+C:\Users\Beni\Documents\GitHub\Finadi-Backend\DAL\obj\Debug\netcoreapp2.2\DAL.AssemblyInfo.cs
+C:\Users\Beni\Documents\GitHub\Finadi-Backend\DAL\obj\Debug\netcoreapp2.2\DAL.csproj.CoreCompileInputs.cache
+C:\Users\Beni\Documents\GitHub\Finadi-Backend\DAL\obj\Debug\netcoreapp2.2\DAL.sourcelink.json
+C:\Users\Beni\Documents\GitHub\Finadi-Backend\DAL\obj\Debug\netcoreapp2.2\DAL.dll
+C:\Users\Beni\Documents\GitHub\Finadi-Backend\DAL\obj\Debug\netcoreapp2.2\DAL.pdb

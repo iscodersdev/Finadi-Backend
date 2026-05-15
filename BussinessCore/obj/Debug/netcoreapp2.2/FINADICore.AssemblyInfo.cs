@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FINADICore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b738e8dae4767d073d90ab5c90eb6bbd89cd327c")]
 [assembly: System.Reflection.AssemblyProductAttribute("FINADICore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FINADICore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
